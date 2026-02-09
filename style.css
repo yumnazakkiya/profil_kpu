@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    background-color: #ffffff;
+}
+
+/* SIDEBAR */
+.sidebar {
+    width: 260px;
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #7b0000, #2b0000);
+    color: white;
+}
+
+.logo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.btn-tutup {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.menu {
+    margin-top: 30px;
+}
+
+.menu-item {
+    display: block;
+    padding: 18px 20px;
+    color: white;
+    text-decoration: none;
+    border-top: 1px solid rgba(255,255,255,0.2);
+}
+
+.menu-item:hover,
+.menu-item.aktif {
+    background-color: rgba(255,255,255,0.1);
+}
+
+/* KONTEN */
+.konten {
+    flex: 1;
+    padding: 30px;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-logout {
+    background-color: #7b0000;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    border-radius: 6px;
+    cursor: pointer;
+}
+
+.kontrol {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.kontrol select,
+.kontrol input {
+    padding: 6px;
+    margin-left: 6px;
+}
+
+/* TABEL */
+.tabel {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.tabel th,
+.tabel td {
+    border: 1px solid #000;
+    padding: 10px;
+    text-align: center;
+}
+
+.tabel th {
+    font-weight: bold;
+}
+
+.aksi {
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* TAB MENU */
+.tab-menu {
+    display: flex;
+    border-bottom: 1px solid #000;
+}
+
+.tab {
+    padding: 15px 20px;
+    border: none;
+    background: #fff;
+    border-right: 1px solid #000;
+    cursor: pointer;
+}
+
+.tab.aktif {
+    background: #7b0000;
+    color: white;
+}
+
+/* FORM IDENTITAS */
+.form-identitas {
+    display: flex;
+    gap: 40px;
+    margin-top: 30px;
+}
+
+.foto-box {
+    width: 200px;
+    text-align: center;
+}
+
+.foto {
+    width: 180px;
+    height: 220px;
+    background: #ddd;
+    margin-bottom: 10px;
+}
+
+.btn-upload {
+    background: #0095ff;
+    color: white;
+    border: none;
+    padding: 8px;
+    width: 100%;
+    cursor: pointer;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 12px;
+    width: 100%;
+}
+
+.form-grid input {
+    padding: 8px;
+    border: 1px solid #000;
+}
+
+/* AKSI BAWAH */
+.aksi-bawah {
+    margin-top: 40px;
+    text-align: right;
+}
+
+.btn-ubah {
+    background: #ffc107;
+    border: none;
+    padding: 12px 25px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.btn-hapus {
+    background: #c00000;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    cursor: pointer;
+}
