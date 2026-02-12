@@ -1,23 +1,111 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Identitas Pegawai</title>
-    <link rel="stylesheet" href="style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      
+        
+      /* TAB MENU */ 
+  
 
-<!-- SIDEBAR MINIMAL -->
-<aside class="sidebar">
+    .tab-menu { 
+    display: flex; 
+    width: calc(100% + 80px);  /* tambahkan 40 kiri + 40 kanan */
+    margin: 50px -40px 20px -40px; 
+    padding: 0; 
+    border-bottom:1px solid #000; 
+    border-top: 1px solid #000; 
+    background-color: #fff; 
+    overflow-x: auto; 
+}
+
+    /* .tab { padding: 15px 20px; border: none; background: #fff; border-right: 1px solid #000; cursor: pointer; } */ 
+      .tab-menu .tab { 
+        flex: 1; /* SEMUA TAB LEBARNYA SAMA */ 
+        padding: 20px 10px; 
+        border: none; 
+        border-right: 1px solid #000; 
+        background: #fff; 
+        cursor: pointer; 
+        font-weight: 600; 
+        white-space: nowrap; 
+    } 
+      .tab-menu .tab:last-child { 
+        border-right: none; } /* .tab.aktif { background: #7b0000; color: white; } */ 
+      .tab-menu .tab.aktif { 
+        background-color: #7b0000; 
+        color: #fff; 
+        border-bottom: 2px solid #7b0000; 
+    }
+
+      
+    </style>
+  </head>
+  <body class="role-admin">
+    <!-- SIDEBAR MINIMAL -->
+    <!-- <aside class="sidebar"> -->
+    <!-- <aside class="sidebar" id="sidebar">
+
     <div class="logo">
-        <button onclick="kembali()">←</button>
+        <span>LOGO</span>
+        
+        <button id="btnToggle" class="btn-toggle">✕</button>
+
     </div>
-</aside>
 
-<main class="konten">
+    <nav class="menu">
+        <a href="#" class="menu-item aktif">Profil Data Pegawai</a>
+        <a href="#" class="menu-item">Tambah Data Pegawai Baru</a>
+        <a href="#" class="menu-item">Pengaturan Akun</a>
+        <a href="#" class="menu-item">Data Master</a>
+    </nav>
+</aside> -->
 
-    <!-- TAB MENU -->
-    <div class="tab-menu">
+<!-- TOMBOL KELUAR -->
+<button class="tombol-keluar">Log Out</button>
+
+    <aside class="sidebar" id="sidebar">
+      <!-- <div class="logo">
+        <span>LOGO</span>
+        <button class="tombol-menu" id="tombolMenu">✕</button>
+      </div> -->
+      <div class="logo">
+        <span>LOGO</span>
+        <button class="tombol-menu" id="tombolMenu">✕</button>
+    </div>
+
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu aktif">Profil Data Pegawai</div>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu">Tambah Data Pegawai Baru</div>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu">Pengaturan Akun</div>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu">Data Master</div>
+
+      <hr class="garis-menu" />
+    </aside>
+
+    
+
+    <main class="konten">
+      <!-- <header class="header">
+        <h1>Data Pegawai</h1>
+        <button class="btn-logout">⮐ LOG OUT</button>
+      </header> -->
+
+      <!-- TAB MENU -->
+      <div class="tab-menu">
         <button class="tab aktif">Identitas</button>
         <button class="tab">Riwayat Golongan</button>
         <button class="tab">Riwayat Jabatan</button>
@@ -26,43 +114,66 @@
         <button class="tab">Riwayat Keluarga</button>
         <button class="tab">Riwayat Tanda Jasa</button>
         <button class="tab">Riwayat SKP</button>
-    </div>
+      </div>
 
-    <!-- FORM IDENTITAS -->
-    <section class="form-identitas">
-
+      <!-- FORM IDENTITAS -->
+      <section class="form-identitas">
         <!-- FOTO -->
-        <div class="foto-box">
-            <div class="foto"></div>
-            <button class="btn-upload">UNGGAH FOTO</button>
+        <!-- <div class="foto-box">
+          <div class="foto"></div>
+          <button class="btn-upload">UNGGAH FOTO</button>
+        </div> -->
+        <div class="kotak-foto">
+            <div class="pratinjau-foto"></div>
+            <button class="tombol-unggah">UNGGAH FOTO</button>
         </div>
 
         <!-- FORM -->
-        <div class="form-grid">
-            <label>Nama</label><input type="text">
-            <label>NIP</label><input type="text">
-            <label>Pangkat/Gol/Ruang/TMT</label><input type="text">
-            <label>Jabatan Terakhir / TMT</label><input type="text">
-            <label>TMT CPNS</label><input type="date">
-            <label>TMT PNS</label><input type="date">
-            <label>Tempat & Tanggal Lahir</label><input type="text">
-            <label>Jenis Kelamin</label><input type="text">
-            <label>Agama</label><input type="text">
-            <label>Status Perkawinan</label><input type="text">
-            <label>Unit Kerja</label><input type="text">
-            <label>Instansi</label><input type="text">
-            <label>Alamat Rumah</label><input type="text">
+        <!-- <div class="form-grid">
+          <label>Nama</label><input type="text" /> <label>NIP</label
+          ><input type="text" /> <label>Pangkat/Gol/Ruang/TMT</label
+          ><input type="text" /> <label>Jabatan Terakhir / TMT</label
+          ><input type="text" /> <label>TMT CPNS</label><input type="date" />
+          <label>TMT PNS</label><input type="date" />
+          <label>Tempat & Tanggal Lahir</label><input type="text" />
+          <label>Jenis Kelamin</label><input type="text" /> <label>Agama</label
+          ><input type="text" /> <label>Status Perkawinan</label
+          ><input type="text" /> <label>Unit Kerja</label><input type="text" />
+          <label>Instansi</label><input type="text" />
+          <label>Alamat Rumah</label><input type="text" />
         </div>
-    </section>
+      </section> -->
 
-    <!-- TOMBOL -->
-    <div class="aksi-bawah">
+      <div class="form">
+            <div class="baris-form"><label>Nama</label><input></div>
+            <div class="baris-form"><label>NIP</label><input></div>
+            <div class="baris-form"><label>Pangkat/Gol. Ruang/TMT</label><input></div>
+            <div class="baris-form"><label>Jabatan Terakhir / TMT</label><input></div>
+            <div class="baris-form"><label>TMT CPNS</label><input type="date"></div>
+            <div class="baris-form"><label>TMT PNS</label><input type="date"></div>
+            <div class="baris-form"><label>Tempat & Tanggal Lahir</label><input></div>
+            <div class="baris-form"><label>Jenis Kelamin</label><input></div>
+            <div class="baris-form"><label>Agama</label><input></div>
+            <div class="baris-form"><label>Status Perkawinan</label><input></div>
+            <div class="baris-form"><label>Unit Kerja</label><input></div>
+            <div class="baris-form"><label>Instansi</label><input></div>
+            <div class="baris-form"><label>Alamat Rumah</label><input></div>
+      <!-- TOMBOL -->
+
+            <div class="aksi-form">
+                <button class="tombol-ubah">UBAH</button>
+                <button class="tombol-hapus">HAPUS</button>
+            </div>
+        </div>
+
+
+
+      <!-- <div class="aksi-bawah">
         <button class="btn-ubah">UBAH</button>
         <button class="btn-hapus">HAPUS</button>
-    </div>
+      </div> -->
+    </main>
 
-</main>
-
-<script src="script.js"></script>
-</body>
+    <script src="script.js"></script>
+  </body>
 </html>

@@ -1,15 +1,43 @@
-// Fitur pencarian sederhana
-document.getElementById("pencarian").addEventListener("keyup", function () {
-    const nilaiCari = this.value.toLowerCase();
-    const baris = document.querySelectorAll("#isiTabel tr");
+// SIDEBAR BUKA / TUTUP
+const sidebar = document.getElementById("sidebar");
+const tombolMenu = document.getElementById("tombolMenu");
 
-    baris.forEach(function (tr) {
-        const teks = tr.innerText.toLowerCase();
-        tr.style.display = teks.includes(nilaiCari) ? "" : "none";
-    });
+tombolMenu.addEventListener("click", () => {
+    sidebar.classList.toggle("tertutup");
+
+    if (sidebar.classList.contains("tertutup")) {
+        tombolMenu.textContent = "<";
+    } else {
+        tombolMenu.textContent = "✕";
+    }
 });
 
-// Tombol logout (contoh)
-document.querySelector(".btn-logout").addEventListener("click", function () {
-    alert("Anda berhasil logout");
+
+// SUBMENU EDIT DATA 
+const menuEditData = document.getElementById("menuEditData");
+const submenuEditData = document.getElementById("submenuEditData");
+const panahEditData = document.getElementById("panahEditData");
+
+// kondisi awal: submenu tampil
+submenuEditData.style.display = "block";
+panahEditData.textContent = "▼";
+
+menuEditData.addEventListener("click", () => {
+    if (submenuEditData.style.display === "none") {
+        submenuEditData.style.display = "block";
+        panahEditData.textContent = "▼";
+    } else {
+        submenuEditData.style.display = "none";
+        panahEditData.textContent = "▶";
+    }
+});
+
+
+// TOMBOL LOG OUT 
+const tombolKeluar = document.querySelector(".tombol-keluar");
+
+tombolKeluar.addEventListener("click", () => {
+    if (confirm("Apakah Anda yakin ingin keluar?")) {
+        window.location.href = "Login.html";
+    }
 });

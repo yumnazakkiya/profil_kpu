@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Data – Riwayat Golongan</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .tab-menu { 
+    display: flex; 
+    width: calc(100% + 80px);  /* tambahkan 40 kiri + 40 kanan */
+    margin: 50px -40px 20px -40px; 
+    padding: 0; 
+    border-bottom:1px solid #000; 
+    border-top: 1px solid #000; 
+    background-color: #fff; 
+    overflow-x: auto; 
+}
+
+    /* .tab { padding: 15px 20px; border: none; background: #fff; border-right: 1px solid #000; cursor: pointer; } */ 
+      .tab-menu .tab { 
+        flex: 1; /* SEMUA TAB LEBARNYA SAMA */ 
+        padding: 20px 10px; 
+        border: none; 
+        border-right: 1px solid #000; 
+        background: #fff; 
+        cursor: pointer; 
+        font-weight: 600; 
+        white-space: nowrap; 
+    } 
+      .tab-menu .tab:last-child { 
+        border-right: none; } /* .tab.aktif { background: #7b0000; color: white; } */ 
+      .tab-menu .tab.aktif { 
+        background-color: #7b0000; 
+        color: #fff; 
+        border-bottom: 2px solid #7b0000; 
+    }
+
+    </style>
+</head>
+<body class="role-user">
+
+<!-- TOMBOL KELUAR -->
+<button class="tombol-keluar">Log Out</button>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="logo">
+        <span>LOGO</span>
+        <button class="tombol-menu" id="tombolMenu">✕</button>
+    </div>
+
+       <hr class="garis-menu" />
+
+      <div class="item-menu aktif">Profil Data Pegawai</div>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu">Tambah Data Pegawai Baru</div>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu">Pengaturan Akun</div>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu">Data Master</div>
+
+      <hr class="garis-menu" />
+
+</aside>
+
+<!-- KONTEN -->
+<main class="konten">
+     <div class="tab-menu">
+        <button class="tab">Identitas</button>
+        <button class="tab aktif">Riwayat Golongan</button>
+        <button class="tab">Riwayat Jabatan</button>
+        <button class="tab">Riwayat Pendidikan</button>
+        <button class="tab">Riwayat Diklat</button>
+        <button class="tab">Riwayat Keluarga</button>
+        <button class="tab">Riwayat Tanda Jasa</button>
+        <button class="tab">Riwayat SKP</button>
+      </div>
+
+    <h2>Riwayat Golongan</h2>
+
+    <div class="pembungkus-form">
+
+        <div class="form">
+
+            <!-- BARIS GOLONGAN -->
+            <div class="baris-form" style="grid-template-columns:240px 1fr 140px;">
+                <label>Golongan Pangkat</label>
+                <select style="height:30px; border:1px solid #888;">
+                    <option>Pilih Golongan</option>
+                    <option>III/a</option>
+                    <option>III/b</option>
+                    <option>IV/a</option>
+                </select>
+                <button class="tombol-tambah btn-kecil">TAMBAH</button>
+            </div>
+    
+            <!-- BARIS TMT -->
+            <div class="baris-form" style="grid-template-columns:240px 1fr 140px;">
+                <label>TMT</label>
+                <input type="date">
+                <div class="aksi-vertikal">
+                    <button class="tombol-ubah btn-kecil">UBAH</button>
+                    <button class="tombol-hapus btn-kecil">HAPUS</button>
+                </div>
+            </div>
+    
+            <!-- TABEL -->
+            <table class="tabel-riwayat">
+                <thead>
+                    <tr>
+                        <th>Golongan Pangkat</th>
+                        <th>TMT</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>III/a</td>
+                        <td>01-01-2020</td>
+                    </tr>
+                    <tr>
+                        <td>III/b</td>
+                        <td>01-01-2023</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    </div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
