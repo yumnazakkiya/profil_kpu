@@ -270,4 +270,31 @@ right: 40px;
 }
 /* end new */
 
+/* new */
+.aksi-vertikal {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.tabel-riwayat {
+    width: 700px;       
+    max-width: 100%;
+    margin-top: 30px;
+}
+
+.tabel-riwayat th,
+.tabel-riwayat td {
+    border: 0.8px solid #555;
+    padding: 8px;
+    text-align: center;
+}
+
+.btn-kecil {
+    width: 90px;         
+    padding: 8px 0;        
+    font-size: 14px;
+    border-radius: 6px;
+}
+
 
