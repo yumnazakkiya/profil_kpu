@@ -2,9 +2,9 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Data – Riwayat Pendidikan</title>
+    <title>Edit Data – Riwayat Kehormatan</title>
     <link rel="stylesheet" href="style.css">
-    <style>
+     <style>
       
         
       /* TAB MENU */ 
@@ -45,11 +45,43 @@
 </head>
 <body class="role-admin">
 
-<!-- TOMBOL KELUAR -->
-<!-- <button class="tombol-keluar">Log Out</button> -->
-
 <!-- SIDEBAR -->
- <aside class="sidebar" id="sidebar">
+<!-- <aside class="sidebar" id="sidebar">
+    <div class="logo">
+        <span>LOGO</span>
+        <button class="tombol-menu" id="tombolMenu">✕</button>
+    </div>
+
+    <hr class="garis-menu">
+
+    <div class="item-menu">Profil</div>
+
+    <hr class="garis-menu">
+
+    <div class="item-menu aktif" id="menuEditData">
+        Edit Data
+        <span class="panah-menu" id="panahEditData">▼</span>
+    </div>
+
+    <div class="submenu" id="submenuEditData">
+        <a href="Edit_Identitas_User.html" class="item-submenu">Identitas</a>
+        <a href="Edit_Riwayat_Golongan_User.html" class="item-submenu">Riwayat Golongan</a>
+        <a href="Edit_Riwayat_Jabatan_User.html" class="item-submenu">Riwayat Jabatan</a>
+        <a href="Edit_Riwayat_Pendidikan_User.html" class="item-submenu">Riwayat Pendidikan</a>
+        <a href="Edit_Riwayat_Diklat_User.html" class="item-submenu">Riwayat Diklat</a>
+        <a href="Edit_Riwayat_Keluarga_User.html" class="item-submenu">Riwayat Keluarga</a>
+        <a href="#" class="item-submenu aktif">Riwayat Kehormatan</a>
+        <a href="Edit_Riwayat_SKP_User.html" class="item-submenu">Riwayat SKP</a>
+    </div>
+
+    <hr class="garis-menu">
+
+    <div class="item-menu">Pengaturan Akun</div>
+
+    <hr class="garis-menu">
+</aside> -->
+
+<aside class="sidebar" id="sidebar">
     <div class="logo">
         <span>LOGO</span>
         <button class="tombol-menu" id="tombolMenu">✕</button>
@@ -75,56 +107,49 @@
 
 </aside>
 
-
-
-
 <!-- KONTEN -->
 <main class="konten">
-        <button class="tombol-keluar">Log Out</button>
 
-    <!-- TAB MENU -->
-      <!-- <div class="tab-menu">
-        <button class="tab">Identitas</button>
-        <button class="tab">Riwayat Golongan</button>
-        <button class="tab">Riwayat Jabatan</button>
-        <button class="tab aktif">Riwayat Pendidikan</button>
-        <button class="tab">Riwayat Diklat</button>
-        <button class="tab">Riwayat Keluarga</button>
-        <button class="tab">Riwayat Tanda Jasa</button>
-        <button class="tab">Riwayat SKP</button>
-      </div> -->
+    <button class="tombol-keluar">Log Out</button>
 
-      <div class="tab-menu">
+        <!-- TAB MENU -->
+        <!-- <div class="tab-menu">
+            <button class="tab">Identitas</button>
+            <button class="tab">Riwayat Golongan</button>
+            <button class="tab">Riwayat Jabatan</button>
+            <button class="tab">Riwayat Pendidikan</button>
+            <button class="tab">Riwayat Diklat</button>
+            <button class="tab">Riwayat Keluarga</button>
+            <button class="tab aktif">Riwayat Kehormatan</button>
+            <button class="tab">Riwayat SKP</button>
+        </div> -->
+
+        <div class="tab-menu">
     <a href="identitas-pegawai.html" class="tab">Identitas</a>
     <a href="Admin_Edit_Riwayat_Golongan.html" class="tab">Riwayat Golongan</a>
     <a href="Admin_Edit_Riwayat_Jabatan.html" class="tab">Riwayat Jabatan</a>
-    <a href="Admin_Edit_Riwayat_Pendidikan.html" class="tab aktif">Riwayat Pendidikan</a>
+    <a href="Admin_Edit_Riwayat_Pendidikan.html" class="tab">Riwayat Pendidikan</a>
     <a href="Admin_Edit_Riwayat_Diklat.html" class="tab">Riwayat Diklat</a>
     <a href="Admin_Edit_Riwayat_Keluarga.html" class="tab">Riwayat Keluarga</a>
-    <a href="Admin_Edit_Riwayat_Kehormatan.html" class="tab">Riwayat Kehormatan</a>
+    <a href="Admin_Edit_Riwayat_Kehormatan.html" class="tab aktif">Riwayat Kehormatan</a>
     <a href="Admin_Edit_Riwayat_SKP.html" class="tab">Riwayat SKP</a>
 </div>
-
+    
     <div class="pembungkus-form">
 
         <div class="form">
 
             <!-- BARIS GOLONGAN -->
             <div class="baris-form" style="grid-template-columns:240px 1fr 140px;">
-                <label>Jenjang Pendidikan</label>
-                <select style="height:30px; border:1px solid #888;">
-                    <option>Pilih Jenjang</option>
-                    <option>III/a</option>
-                    <option>III/b</option>
-                    <option>IV/a</option>
-                </select>
+                <label>Jenis Penghargaan</label>
+                <input type="text">
                 <button class="tombol-tambah btn-kecil">TAMBAH</button>
             </div>
     
             <!-- BARIS TMT -->
             <div class="baris-form" style="grid-template-columns:240px 1fr 140px;">
-                <label>TMT</label>
-                <input type="date">
+                <label>Tahun</label>
+                <input type="number">
                 <div class="aksi-vertikal">
                     <button class="tombol-ubah btn-kecil">UBAH</button>
                     <button class="tombol-hapus btn-kecil">HAPUS</button>
@@ -135,8 +160,8 @@
             <table class="tabel-riwayat">
                 <thead>
                     <tr>
-                        <th>Jenjang Pendidikan</th>
-                        <th>TMT</th>
+                        <th>Jenis Penghargaan</th>
+                        <th>Tahun</th>
                     </tr>
                 </thead>
                 <tbody>

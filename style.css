@@ -240,7 +240,7 @@ right: 40px;
 
 .tombol-ubah {
     background: #f1c40f;
-    color: #000;
+    color: #fff;
     border: none;
     padding: 8px 22px;
     border-radius: 5px;
@@ -296,5 +296,14 @@ right: 40px;
     font-size: 14px;
     border-radius: 6px;
 }
+
+.tab {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 
 
