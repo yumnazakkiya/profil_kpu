@@ -134,43 +134,69 @@
 
 <!-- SIDEBAR -->
 <aside class="sidebar" id="sidebar">
-    <div class="logo">
+      <div class="logo">
         <span>LOGO</span>
         <button class="tombol-menu" id="tombolMenu">✕</button>
-    </div>
+      </div>
 
-    <hr class="garis-menu">
+      <hr class="garis-menu" />
 
-    <div class="item-menu">Profil Data Pegawai</div>
-    <hr class="garis-menu">
+      <a href="Admin_Profil_Data_Pegawai.html" class="item-menu">
+        Profil Data Pegawai
+      </a>
 
-    <div class="item-menu aktif">Tambah Data Pegawai Baru</div>
-    <hr class="garis-menu">
+      <hr class="garis-menu" />
 
-    <div class="item-menu">Pengaturan Akun</div>
-    <hr class="garis-menu">
+      <a href="Admin_Tambah_Data.html" class="item-menu aktif">
+        Tambah Data Pegawai Baru
+      </a>
 
-    <div class="item-menu aktif" id="menuDataMaster">
+      <hr class="garis-menu" />
+
+      <a href="Admin_Pengaturan_Akun.html" class="item-menu">
+        Pengaturan Akun
+      </a>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu" id="menuDataMaster">
         Data Master
         <span class="panah-menu" id="panahDataMaster">▼</span>
-    </div>
+      </div>
 
-    <div class="submenu aktif" id="submenuDataMaster">
+      <div class="submenu" id="submenuDataMaster">
         <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
         <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
-        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu">Status Perkawinan</a>
-        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu">Jenjang Pendidikan</a>
-        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu">Hubungan Keluarga</a>
+        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu"
+          >Status Perkawinan</a
+        >
+        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu"
+          >Jenjang Pendidikan</a
+        >
+        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu"
+          >Hubungan Keluarga</a
+        >
         <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
         <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
-        <a href="Admin_DM_UnitKerja.html" class="item-submenu">Unit Kerja / Divisi</a>
-        <a href="Admin_DM_JenisDiklat.html" class="item-submenu">Jenis Diklat</a>
-        <a href="Admin_DM_PredikatSKP.html" class="item-submenu">Predikat SKP</a>
-        <a href="Admin_DM_JenisPenghargaan.html" class="item-submenu">Jenis Penghargaan</a>
-    </div>
+        <a href="Admin_DM_UnitKerja.html" class="item-submenu"
+          >Unit Kerja / Divisi</a
+        >
+        <a href="Admin_DM_JenisDiklat.html" class="item-submenu"
+          >Jenis Diklat</a
+        >
+        <a href="Admin_DM_PredikatSKP.html" class="item-submenu"
+          >Predikat SKP</a
+        >
+      </div>
+
+      <hr class="garis-menu" />
+      <a href="Admin_Manajemen_Akun.html" class="item-menu">
+        Manajemen Akun
+    </a>
 
     <hr class="garis-menu">
-</aside>
+    </aside>
+
 
 <!-- KONTEN -->
 <main class="konten">
@@ -188,7 +214,7 @@
         </div>
 
         <div class="dropdown-menu">
-            <a href="#">Beranda</a>
+            <a href="Admin_Profil_Data_Pegawai.html">Beranda</a>
             <a href="#">Keluar</a>
         </div>
     </div>
@@ -428,7 +454,9 @@
 <!-- <script src="script.js"></script> -->
  <script src="core-ui.js"></script>
   <script src="datamaster.js"></script>
-  <script>
+  <script src="admin-ui.js"></script>
+
+  <!-- <script>
       // Dropdown User Profile
       const userProfile = document.getElementById("userProfile");
 
@@ -444,7 +472,7 @@
           }
         });
       }
-    </script>
+    </script> -->
 
 
  

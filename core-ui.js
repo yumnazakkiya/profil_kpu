@@ -20,24 +20,24 @@ document.addEventListener("DOMContentLoaded", function () {
     // DROPDOWN DATA MASTER
     // ===============================
 
-    const menuDataMaster = document.getElementById("menuDataMaster");
-    const submenuDataMaster = document.getElementById("submenuDataMaster");
-    const panahDataMaster = document.getElementById("panahDataMaster");
+    // const menuDataMaster = document.getElementById("menuDataMaster");
+    // const submenuDataMaster = document.getElementById("submenuDataMaster");
+    // const panahDataMaster = document.getElementById("panahDataMaster");
 
-    if (menuDataMaster && submenuDataMaster && panahDataMaster) {
+    // if (menuDataMaster && submenuDataMaster && panahDataMaster) {
 
-        submenuDataMaster.style.display = "none";
-        panahDataMaster.textContent = "▶";
+    //     submenuDataMaster.style.display = "none";
+    //     panahDataMaster.textContent = "▶";
 
-        menuDataMaster.addEventListener("click", function () {
+    //     menuDataMaster.addEventListener("click", function () {
 
-            const terbuka = submenuDataMaster.style.display === "block";
+    //         const terbuka = submenuDataMaster.style.display === "block";
 
-            submenuDataMaster.style.display = terbuka ? "none" : "block";
-            panahDataMaster.textContent = terbuka ? "▶" : "▼";
+    //         submenuDataMaster.style.display = terbuka ? "none" : "block";
+    //         panahDataMaster.textContent = terbuka ? "▶" : "▼";
 
-        });
-    }
+    //     });
+    // }
 
     // ===============================
     // LOG OUT
@@ -57,18 +57,38 @@ document.addEventListener("DOMContentLoaded", function () {
     // CHECK ALL TABLE
     // ===============================
 
-    const checkAll = document.getElementById("checkAll");
+    // const checkAll = document.getElementById("checkAll");
 
-    if (checkAll) {
-        checkAll.addEventListener("change", function () {
+    // if (checkAll) {
+    //     checkAll.addEventListener("change", function () {
 
-            const checkboxes = document.querySelectorAll(".row-checkbox");
+    //         const checkboxes = document.querySelectorAll(".row-checkbox");
 
-            checkboxes.forEach(function (cb) {
-                cb.checked = checkAll.checked;
-            });
+    //         checkboxes.forEach(function (cb) {
+    //             cb.checked = checkAll.checked;
+    //         });
 
+    //     });
+    // }
+
+    // ===============================
+    // DROPDOWN USER PROFILE
+    // ===============================
+    const userProfile = document.getElementById("userProfile");
+
+    if (userProfile) {
+
+        userProfile.addEventListener("click", function (e) {
+            e.stopPropagation(); // supaya tidak langsung tertutup
+            userProfile.classList.toggle("active");
+        });
+
+        document.addEventListener("click", function (e) {
+            if (!userProfile.contains(e.target)) {
+                userProfile.classList.remove("active");
+            }
         });
     }
+
 
 });

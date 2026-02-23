@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>Identitas Pegawai</title>
     <link rel="stylesheet" href="style.css" />
-    <style>
+    <!-- <style>
       
         
       /* TAB MENU */ 
@@ -13,7 +13,7 @@
     .tab-menu { 
     display: flex; 
     width: calc(100% + 80px);  /* tambahkan 40 kiri + 40 kanan */
-    margin: 50px -40px 20px -40px; 
+    margin: 70px -40px 20px -40px; 
     padding: 0; 
     border-bottom:1px solid #000; 
     border-top: 1px solid #000; 
@@ -99,7 +99,7 @@
       }
 
       
-    </style>
+    </style> -->
   </head>
   <body class="role-admin">
     <!-- SIDEBAR MINIMAL -->
@@ -108,7 +108,7 @@
 <!-- TOMBOL KELUAR -->
 <!-- <button class="tombol-keluar">Log Out</button> -->
 
-    <aside class="sidebar" id="sidebar">
+    <!-- <aside class="sidebar" id="sidebar">
     
       <div class="logo">
         <span>LOGO</span>
@@ -133,6 +133,70 @@
       <div class="item-menu">Data Master</div>
 
       <hr class="garis-menu" />
+    </aside> -->
+
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <span>LOGO</span>
+        <button class="tombol-menu" id="tombolMenu">✕</button>
+      </div>
+
+      <hr class="garis-menu" />
+
+      <a href="Admin_Profil_Data_Pegawai.html" class="item-menu aktif">
+        Profil Data Pegawai
+      </a>
+
+      <hr class="garis-menu" />
+
+      <a href="Admin_Tambah_Data.html" class="item-menu">
+        Tambah Data Pegawai Baru
+      </a>
+
+      <hr class="garis-menu" />
+
+      <a href="Admin_Pengaturan_Akun.html" class="item-menu">
+        Pengaturan Akun
+      </a>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu" id="menuDataMaster">
+        Data Master
+        <span class="panah-menu" id="panahDataMaster">▼</span>
+      </div>
+
+      <div class="submenu aktif" id="submenuDataMaster">
+        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
+        <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
+        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu"
+          >Status Perkawinan</a
+        >
+        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu"
+          >Jenjang Pendidikan</a
+        >
+        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu"
+          >Hubungan Keluarga</a
+        >
+        <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
+        <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_UnitKerja.html" class="item-submenu"
+          >Unit Kerja / Divisi</a
+        >
+        <a href="Admin_DM_JenisDiklat.html" class="item-submenu"
+          >Jenis Diklat</a
+        >
+        <a href="Admin_DM_PredikatSKP.html" class="item-submenu"
+          >Predikat SKP</a
+        >
+      </div>
+
+      <hr class="garis-menu" />
+      <a href="Admin_Manajemen_Akun.html" class="item-menu">
+        Manajemen Akun
+    </a>
+
+    <hr class="garis-menu">
     </aside>
 
     
@@ -152,7 +216,7 @@
         </div>
 
         <div class="dropdown-menu" id="dropdownMenu">
-          <a href="#">Beranda</a>
+          <a href="Admin_Profil_Data_Pegawai.html">Beranda</a>
           <a href="#">Keluar</a>
         </div>
       </div>
@@ -208,6 +272,11 @@
      
     </main>
 
-    <script src="script.js"></script>
+    <!-- <script src="script.js"></script> -->
+
+    <script src="core-ui.js"></script>
+    <script src="datamaster.js"></script>
+    <script src="admin-ui.js"></script>
+
   </body>
 </html>

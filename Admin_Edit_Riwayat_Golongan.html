@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <title>Edit Data – Riwayat Golongan</title>
     <link rel="stylesheet" href="style.css">
-    <style>
+    <!-- <style>
         .tab-menu { 
     display: flex; 
     width: calc(100% + 80px);  /* tambahkan 40 kiri + 40 kanan */
-    margin: 50px -40px 20px -40px; 
+    /* margin: 50px -40px 20px -40px;  */
+    margin: 70px -40px 20px -40px; 
+
     padding: 0; 
     border-bottom:1px solid #000; 
     border-top: 1px solid #000; 
@@ -35,7 +37,65 @@
         border-bottom: 2px solid #7b0000; 
     }
 
-    </style>
+    /* NEW PROFIL */
+      /* USER PROFILE */
+      .user-profile {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        cursor: pointer;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f2f2f2;
+        padding: 10px 15px;
+        border-radius: 15px;
+      }
+
+      .user-icon {
+        font-size: 24px;
+      }
+
+      .user-name {
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      
+      /* DROPDOWN */
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: #f2f2f2;
+        border-radius: 15px;
+        padding: 15px 20px;
+        width: 200px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .dropdown-menu a {
+        display: block;
+        text-decoration: none;
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .dropdown-menu a:last-child {
+        margin-bottom: 0;
+      }
+
+      /* TAMPIL SAAT AKTIF */
+      .user-profile.active .dropdown-menu {
+        display: block;
+      }
+
+    </style> -->
 </head>
 <body class="role-admin">
 
@@ -43,7 +103,7 @@
 <!-- <button class="tombol-keluar">Log Out</button> -->
 
 <!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
+<!-- <aside class="sidebar" id="sidebar">
     <div class="logo">
         <span>LOGO</span>
         <button class="tombol-menu" id="tombolMenu">✕</button>
@@ -67,7 +127,71 @@
 
       <hr class="garis-menu" />
 
-</aside>
+</aside> -->
+
+<aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <span>LOGO</span>
+        <button class="tombol-menu" id="tombolMenu">✕</button>
+      </div>
+
+      <hr class="garis-menu" />
+
+      <a href="Admin_Profil_Data_Pegawai.html" class="item-menu aktif">
+        Profil Data Pegawai
+      </a>
+
+      <hr class="garis-menu" />
+
+      <a href="Admin_Tambah_Data.html" class="item-menu">
+        Tambah Data Pegawai Baru
+      </a>
+
+      <hr class="garis-menu" />
+
+      <a href="Admin_Pengaturan_Akun.html" class="item-menu">
+        Pengaturan Akun
+      </a>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu" id="menuDataMaster">
+        Data Master
+        <span class="panah-menu" id="panahDataMaster">▼</span>
+      </div>
+
+      <div class="submenu" id="submenuDataMaster">
+        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
+        <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
+        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu"
+          >Status Perkawinan</a
+        >
+        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu"
+          >Jenjang Pendidikan</a
+        >
+        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu"
+          >Hubungan Keluarga</a
+        >
+        <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
+        <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_UnitKerja.html" class="item-submenu"
+          >Unit Kerja / Divisi</a
+        >
+        <a href="Admin_DM_JenisDiklat.html" class="item-submenu"
+          >Jenis Diklat</a
+        >
+        <a href="Admin_DM_PredikatSKP.html" class="item-submenu"
+          >Predikat SKP</a
+        >
+      </div>
+
+      <hr class="garis-menu" />
+      <a href="Admin_Manajemen_Akun.html" class="item-menu">
+        Manajemen Akun
+    </a>
+
+    <hr class="garis-menu">
+    </aside>
 
 <!-- KONTEN -->
 <main class="konten">
@@ -84,7 +208,7 @@
         </div>
 
         <div class="dropdown-menu" id="dropdownMenu">
-          <a href="#">Beranda</a>
+          <a href="Admin_Profil_Data_Pegawai.html">Beranda</a>
           <a href="#">Keluar</a>
         </div>
       </div>
@@ -152,5 +276,22 @@
 </main>
 
 <script src="script.js"></script>
+<script>
+      // Dropdown User Profile
+      const userProfile = document.getElementById("userProfile");
+
+      if (userProfile) {
+        userProfile.addEventListener("click", function () {
+          userProfile.classList.toggle("active");
+        });
+
+        // Tutup jika klik luar
+        document.addEventListener("click", function (e) {
+          if (!userProfile.contains(e.target)) {
+            userProfile.classList.remove("active");
+          }
+        });
+      }
+    </script>
 </body>
 </html>

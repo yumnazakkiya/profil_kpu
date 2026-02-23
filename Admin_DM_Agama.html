@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="id">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Manage Jenis Kelamin</title>
-    <link rel="stylesheet" href="style.css">
-    <style>
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="datamaster.css" />
+    <!-- <style>
         /* =============================
    DATA MASTER TABLE STYLE
 ============================= */
@@ -14,6 +15,7 @@
     justify-content: space-between;
     align-items: center;
     margin-bottom: 15px;
+    margin-top: 70px;
 }
 
 .show-entries select,
@@ -69,112 +71,152 @@
     cursor: pointer;
 }
 
-    </style>
-</head>
-<body class="role-admin" data-jenis="agama">
-
-<!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
-    <div class="logo">
+    </style> -->
+  </head>
+  <body class="role-admin" data-jenis="agama">
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="logo">
         <span>LOGO</span>
         <button class="tombol-menu" id="tombolMenu">✕</button>
-    </div>
+      </div>
 
-    <hr class="garis-menu">
+      <hr class="garis-menu" />
 
-    <div class="item-menu">Profil Data Pegawai</div>
-    <hr class="garis-menu">
+      <a href="Admin_Profil_Data_Pegawai.html" class="item-menu">
+        Profil Data Pegawai
+      </a>
 
-    <div class="item-menu">Tambah Data Pegawai Baru</div>
-    <hr class="garis-menu">
+      <hr class="garis-menu" />
 
-    <div class="item-menu">Pengaturan Akun</div>
-    <hr class="garis-menu">
+      <a href="Admin_Tambah_Data.html" class="item-menu">
+        Tambah Data Pegawai Baru
+      </a>
 
-    <div class="item-menu aktif" id="menuDataMaster">
+      <hr class="garis-menu" />
+
+      <a href="Admin_Pengaturan_Akun.html" class="item-menu">
+        Pengaturan Akun
+      </a>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu aktif" id="menuDataMaster">
         Data Master
         <span class="panah-menu" id="panahDataMaster">▼</span>
-    </div>
+      </div>
 
-    <div class="submenu aktif" id="submenuDataMaster">
-        <a href="Admin_DM_Gender.html" class="item-submenu ">Jenis Kelamin</a>
+      <div class="submenu aktif" id="submenuDataMaster">
+        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
         <a href="Admin_DM_Agama.html" class="item-submenu aktif">Agama</a>
-        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu">Status Perkawinan</a>
-        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu">Jenjang Pendidikan</a>
-        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu">Hubungan Keluarga</a>
+        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu"
+          >Status Perkawinan</a
+        >
+        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu"
+          >Jenjang Pendidikan</a
+        >
+        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu"
+          >Hubungan Keluarga</a
+        >
         <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
         <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
-        <a href="Admin_DM_UnitKerja.html" class="item-submenu">Unit Kerja / Divisi</a>
-        <a href="Admin_DM_JenisDiklat.html" class="item-submenu">Jenis Diklat</a>
-        <a href="Admin_DM_PredikatSKP.html" class="item-submenu">Predikat SKP</a>
-    </div>
+        <a href="Admin_DM_UnitKerja.html" class="item-submenu"
+          >Unit Kerja / Divisi</a
+        >
+        <a href="Admin_DM_JenisDiklat.html" class="item-submenu"
+          >Jenis Diklat</a
+        >
+        <a href="Admin_DM_PredikatSKP.html" class="item-submenu"
+          >Predikat SKP</a
+        >
+      </div>
+
+      <hr class="garis-menu" />
+      <a href="Admin_Manajemen_Akun.html" class="item-menu">
+        Manajemen Akun
+    </a>
 
     <hr class="garis-menu">
-</aside>
+    </aside>
 
-<!-- KONTEN -->
-<main class="konten">
+    <!-- KONTEN -->
+    <main class="konten">
+      <div class="user-profile" id="userProfile">
+        <div class="user-info">
+          <div class="user-icon">👤</div>
+          <div class="user-text">
+            <div class="user-name">TU SEKRETARIS KPU</div>
+            <!-- <div class="user-role">Tata Usaha</div> -->
+          </div>
+        </div>
 
-    <h2>Data Master</h2>
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="#">Beranda</a>
+          <a href="#">Keluar</a>
+        </div>
+      </div>
 
-    <!-- BARIS ATAS -->
-    <div class="table-top">
+      <h2>Data Master</h2>
+
+      <!-- BARIS ATAS -->
+      <div class="table-top">
         <div class="show-entries">
-            Show 
-            <select id="entriesSelect">
-                <option value="5">5</option>
-                <option value="10" selected>10</option>
-                <option value="25">25</option>
-            </select>
-            Entries
+          Show
+          <select id="entriesSelect">
+            <option value="5">5</option>
+            <option value="10" selected>10</option>
+            <option value="25">25</option>
+          </select>
+          Entries
         </div>
 
         <div class="search-box">
-            Search 
-            <input type="text" id="searchInput" placeholder="Cari...">
+          Search
+          <input type="text" id="searchInput" placeholder="Cari..." />
         </div>
-    </div>
+      </div>
 
-    <!-- HEADER MERAH -->
-    <div class="table-header">
+      <!-- HEADER MERAH -->
+      <div class="table-header">
         <span>Manage Agama</span>
         <div>
-            <button class="tombol-hapus" onclick="hapusTerpilih()">Delete</button>
-            <button class="tombol-tambah" onclick="tambahData()">+ Add New</button>
+          <button class="tombol-hapus" onclick="hapusTerpilih()">Delete</button>
+          <button class="tombol-tambah" onclick="tambahData()">
+            + Add New
+          </button>
         </div>
-    </div>
+      </div>
 
-    <!-- TABEL -->
-    <table class="table-master">
+      <!-- TABEL -->
+      <table class="table-master">
         <thead>
-            <tr>
-                <th width="5%">
-                    <input type="checkbox" id="checkAll">
-                </th>
-                <th>Agama</th>
-                <th width="15%">Aksi</th>
-            </tr>
+          <tr>
+            <th width="5%">
+              <input type="checkbox" id="checkAll" />
+            </th>
+            <th>Agama</th>
+            <th width="15%">Aksi</th>
+          </tr>
         </thead>
         <tbody id="tableBody"></tbody>
-    </table>
+      </table>
 
-    <!-- FOOTER TABLE -->
-    <div class="table-footer">
+      <!-- FOOTER TABLE -->
+      <div class="table-footer">
         <div id="infoText">Showing 1 to 0 of 0 entries</div>
         <div id="pagination">
-            <button class="tombol-previous" onclick="prevPage()">Previous</button>
-            <button class="tombol-next" onclick="nextPage()">Next</button>
+          <button class="tombol-previous" onclick="prevPage()">Previous</button>
+          <button class="tombol-next" onclick="nextPage()">Next</button>
         </div>
-    </div>
+      </div>
+    </main>
 
-</main>
+    <!-- <script src="script.js"></script> -->
+    <script src="core-ui.js"></script>
+    <script src="datamaster.js"></script>
+    <script src="admin-ui.js"></script>
 
-<!-- <script src="script.js"></script> -->
- <script src="core-ui.js"></script>
-  <script src="datamaster.js"></script>
-
-
-<!-- <script>
+    <!-- <script>
     let dataMaster = []; // Kosong dulu supaya bisa tes "Belum ada data"
 
 function renderTable() {
@@ -253,5 +295,5 @@ function hapusTerpilih() {
 document.addEventListener("DOMContentLoaded", renderTable);
 
 </script> -->
-</body>
+  </body>
 </html>

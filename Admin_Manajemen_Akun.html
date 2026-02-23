@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Manajemen Akun</title>
 <link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="datamaster.css" />
 
 <style>
 
@@ -108,7 +109,7 @@
 <body class="role-admin">
 
 <!-- SIDEBAR -->
-<aside class="sidebar" id="sidebar">
+<!-- <aside class="sidebar" id="sidebar">
     <div class="logo">
         <span>LOGO</span>
         <button class="tombol-menu" id="tombolMenu">✕</button>
@@ -139,10 +140,88 @@
     </a>
 
     <hr class="garis-menu">
-</aside>
+</aside> -->
+
+<aside class="sidebar" id="sidebar">
+      <div class="logo">
+        <span>LOGO</span>
+        <button class="tombol-menu" id="tombolMenu">✕</button>
+      </div>
+
+      <hr class="garis-menu" />
+
+      <a href="Admin_Profil_Data_Pegawai.html" class="item-menu">
+        Profil Data Pegawai
+      </a>
+
+      <hr class="garis-menu" />
+
+      <a href="Admin_Tambah_Data.html" class="item-menu">
+        Tambah Data Pegawai Baru
+      </a>
+
+      <hr class="garis-menu" />
+
+      <a href="Admin_Pengaturan_Akun.html" class="item-menu">
+        Pengaturan Akun
+      </a>
+
+      <hr class="garis-menu" />
+
+      <div class="item-menu" id="menuDataMaster">
+        Data Master
+        <span class="panah-menu" id="panahDataMaster">▼</span>
+      </div>
+
+      <div class="submenu aktif" id="submenuDataMaster">
+        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
+        <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
+        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu"
+          >Status Perkawinan</a
+        >
+        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu"
+          >Jenjang Pendidikan</a
+        >
+        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu"
+          >Hubungan Keluarga</a
+        >
+        <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
+        <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_UnitKerja.html" class="item-submenu"
+          >Unit Kerja / Divisi</a
+        >
+        <a href="Admin_DM_JenisDiklat.html" class="item-submenu"
+          >Jenis Diklat</a
+        >
+        <a href="Admin_DM_PredikatSKP.html" class="item-submenu"
+          >Predikat SKP</a
+        >
+      </div>
+
+      <hr class="garis-menu" />
+      <a href="Admin_Manajemen_Akun.html" class="item-menu aktif">
+        Manajemen Akun
+    </a>
+
+    <hr class="garis-menu">
+    </aside>
 
 <!-- KONTEN -->
 <main class="konten">
+    <div class="user-profile" id="userProfile">
+        <div class="user-info">
+          <div class="user-icon">👤</div>
+          <div class="user-text">
+            <div class="user-name">TU SEKRETARIS KPU</div>
+            <!-- <div class="user-role">Tata Usaha</div> -->
+          </div>
+        </div>
+
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="Admin_Profil_Data_Pegawai.html">Beranda</a>
+          <a href="#">Keluar</a>
+        </div>
+      </div>
 
 <h2>Manajemen Akun</h2>
 
@@ -219,5 +298,7 @@
 </main>
 
 <script src="core-ui.js"></script>
+<script src="datamaster.js"></script>
+<script src="admin-ui.js"></script>
 </body>
 </html>
