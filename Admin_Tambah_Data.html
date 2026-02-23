@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Jenis Kelamin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* =============================
+   DATA MASTER TABLE STYLE
+============================= */
+
+/* .table-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.show-entries select,
+.search-box input {
+    height: 28px;
+    padding: 4px 8px;
+}
+
+.table-header {
+    background: #8b0000;
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-master {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-master th,
+.table-master td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.tombol-previous {
+    background: #4b8df7;
+    color: #fff;
+    border: none;
+    padding: 8px 22px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tombol-next {
+    background: #4b8df7;
+    color: #fff;
+    border: none;
+    padding: 8px 22px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+} */
+
+ /* NEW PROFIL */
+      /* USER PROFILE */
+      .user-profile {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        cursor: pointer;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f2f2f2;
+        padding: 10px 15px;
+        border-radius: 15px;
+      }
+
+      .user-icon {
+        font-size: 24px;
+      }
+
+      .user-name {
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      
+      /* DROPDOWN */
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: #f2f2f2;
+        border-radius: 15px;
+        padding: 15px 20px;
+        width: 200px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .dropdown-menu a {
+        display: block;
+        text-decoration: none;
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .dropdown-menu a:last-child {
+        margin-bottom: 0;
+      }
+
+      /* TAMPIL SAAT AKTIF */
+      .user-profile.active .dropdown-menu {
+        display: block;
+      }
+
+
+    </style>
+</head>
+<body class="role-admin">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="logo">
+        <span>LOGO</span>
+        <button class="tombol-menu" id="tombolMenu">✕</button>
+    </div>
+
+    <hr class="garis-menu">
+
+    <div class="item-menu">Profil Data Pegawai</div>
+    <hr class="garis-menu">
+
+    <div class="item-menu aktif">Tambah Data Pegawai Baru</div>
+    <hr class="garis-menu">
+
+    <div class="item-menu">Pengaturan Akun</div>
+    <hr class="garis-menu">
+
+    <div class="item-menu aktif" id="menuDataMaster">
+        Data Master
+        <span class="panah-menu" id="panahDataMaster">▼</span>
+    </div>
+
+    <div class="submenu aktif" id="submenuDataMaster">
+        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
+        <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
+        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu">Status Perkawinan</a>
+        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu">Jenjang Pendidikan</a>
+        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu">Hubungan Keluarga</a>
+        <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
+        <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_UnitKerja.html" class="item-submenu">Unit Kerja / Divisi</a>
+        <a href="Admin_DM_JenisDiklat.html" class="item-submenu">Jenis Diklat</a>
+        <a href="Admin_DM_PredikatSKP.html" class="item-submenu">Predikat SKP</a>
+        <a href="Admin_DM_JenisPenghargaan.html" class="item-submenu">Jenis Penghargaan</a>
+    </div>
+
+    <hr class="garis-menu">
+</aside>
+
+<!-- KONTEN -->
+<main class="konten">
+
+    <h2>Tambah Data Pegawai</h2>
+    <p style="margin-top:-10px; margin-bottom:30px;">Identitas</p>
+
+    <!-- PROFIL USER -->
+    <div class="user-profile" id="userProfile">
+        <div class="user-info">
+            <div class="user-icon">👤</div>
+            <div class="user-text">
+                <div class="user-name">TU SEKRETARIS KPU</div>
+            </div>
+        </div>
+
+        <div class="dropdown-menu">
+            <a href="#">Beranda</a>
+            <a href="#">Keluar</a>
+        </div>
+    </div>
+
+    <!-- FORM TAMBAH DATA -->
+    <div class="pembungkus-form">
+
+        <!-- FOTO -->
+        <div class="kotak-foto">
+            <div class="pratinjau-foto"></div>
+            <button class="tombol-unggah">UNGGAH FOTO</button>
+        </div>
+
+        <!-- FORM UTAMA -->
+        <div class="form">
+
+            <div class="baris-form">
+                <label>Nama</label>
+                <input type="text">
+            </div>
+
+            <div class="baris-form">
+                <label>NIP</label>
+                <input type="text">
+            </div>
+
+            <div class="baris-form">
+                <label>Pangkat/Gol. Ruang/TMT</label>
+                <input type="text">
+            </div>
+
+            <div class="baris-form">
+                <label>Jabatan Terakhir / TMT</label>
+                <input type="text">
+            </div>
+
+            <div class="baris-form">
+                <label>TMT CPNS</label>
+                <input type="date">
+            </div>
+
+            <div class="baris-form">
+                <label>TMT PNS</label>
+                <input type="date">
+            </div>
+
+            <div class="baris-form">
+                <label>Tempat & Tanggal Lahir</label>
+                <input type="text">
+            </div>
+
+            <div class="baris-form">
+                <label>Jenis Kelamin</label>
+                <select>
+                    <option>-- Pilih --</option>
+                </select>
+            </div>
+
+            <div class="baris-form">
+                <label>Agama</label>
+                <select>
+                    <option>-- Pilih --</option>
+                </select>
+            </div>
+
+            <div class="baris-form">
+                <label>Status Perkawinan</label>
+                <select>
+                    <option>-- Pilih --</option>
+                </select>
+            </div>
+
+            <div class="baris-form">
+                <label>Unit Kerja</label>
+                <select>
+                    <option>-- Pilih --</option>
+                </select>
+            </div>
+
+            <div class="baris-form">
+                <label>Instansi</label>
+                <input type="text">
+            </div>
+
+            <div class="baris-form">
+                <label>No Telepon</label>
+                <input type="text">
+            </div>
+
+            <div class="baris-form">
+                <label>Alamat Rumah</label>
+                <input type="text">
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ============================= -->
+    <!-- RIWAYAT GOLONGAN -->
+    <!-- ============================= -->
+
+    <h3 style="margin-top:60px;">Riwayat Golongan</h3>
+
+    <div class="form">
+        <div class="baris-form">
+            <label>Golongan Pangkat</label>
+            <select>
+                <option>-- Pilih --</option>
+            </select>
+        </div>
+
+        <div class="baris-form">
+            <label>TMT</label>
+            <input type="date">
+        </div>
+    </div>
+
+    <!-- RIWAYAT JABATAN -->
+    <h3 style="margin-top:40px;">Riwayat Jabatan</h3>
+
+    <div class="form">
+        <div class="baris-form">
+            <label>Nama Jabatan</label>
+            <select>
+                <option>-- Pilih --</option>
+            </select>
+        </div>
+
+        <div class="baris-form">
+            <label>TMT</label>
+            <input type="date">
+        </div>
+    </div>
+
+    <!-- RIWAYAT PENDIDIKAN -->
+    <h3 style="margin-top:40px;">Riwayat Pendidikan</h3>
+
+    <div class="form">
+        <div class="baris-form">
+            <label>Jenjang Pendidikan</label>
+            <select>
+                <option>-- Pilih --</option>
+            </select>
+        </div>
+
+        <div class="baris-form">
+            <label>TMT</label>
+            <input type="date">
+        </div>
+    </div>
+
+    <!-- RIWAYAT DIKLAT -->
+    <h3 style="margin-top:40px;">Riwayat Diklat</h3>
+
+    <div class="form">
+        <div class="baris-form">
+            <label>Nama Diklat</label>
+            <select>
+                <option>-- Pilih --</option>
+            </select>
+        </div>
+
+        <div class="baris-form">
+            <label>Tahun</label>
+            <input type="number">
+        </div>
+    </div>
+
+    <!-- RIWAYAT KELUARGA -->
+    <h3 style="margin-top:40px;">Riwayat Keterangan Keluarga</h3>
+
+    <div class="form">
+        <div class="baris-form">
+            <label>Hubungan Keluarga</label>
+            <select>
+                <option>-- Pilih --</option>
+            </select>
+        </div>
+
+        <div class="baris-form">
+            <label>Jumlah</label>
+            <input type="number">
+        </div>
+
+        <div class="baris-form">
+            <label>Keterangan</label>
+            <input type="text">
+        </div>
+    </div>
+
+    <!-- RIWAYAT TANDA JASA -->
+    <h3 style="margin-top:40px;">Riwayat Tanda Jasa/Kehormatan</h3>
+
+    <div class="form">
+        <div class="baris-form">
+            <label>Nama Penghargaan</label>
+            <select>
+                <option>-- Pilih --</option>
+            </select>
+        </div>
+
+        <div class="baris-form">
+            <label>Tahun</label>
+            <input type="number">
+        </div>
+    </div>
+
+    <!-- RIWAYAT SKP -->
+    <h3 style="margin-top:40px;">Riwayat SKP</h3>
+
+    <div class="form">
+        <div class="baris-form">
+            <label>Tahun</label>
+            <input type="number">
+        </div>
+
+        <div class="baris-form">
+            <label>Rata-Rata</label>
+            <input type="number">
+        </div>
+
+        <div class="baris-form">
+            <label>Predikat</label>
+            <select>
+                <option>-- Pilih --</option>
+            </select>
+        </div>
+    </div>
+
+    <!-- TOMBOL TAMBAH -->
+    <div class="aksi-form" style="margin-top:50px;">
+        <button class="tombol-tambah">TAMBAH</button>
+    </div>
+
+</main>
+
+<!-- <script src="script.js"></script> -->
+ <script src="core-ui.js"></script>
+  <script src="datamaster.js"></script>
+  <script>
+      // Dropdown User Profile
+      const userProfile = document.getElementById("userProfile");
+
+      if (userProfile) {
+        userProfile.addEventListener("click", function () {
+          userProfile.classList.toggle("active");
+        });
+
+        // Tutup jika klik luar
+        document.addEventListener("click", function (e) {
+          if (!userProfile.contains(e.target)) {
+            userProfile.classList.remove("active");
+          }
+        });
+      }
+    </script>
+
+
+ 
+</body>
+</html>

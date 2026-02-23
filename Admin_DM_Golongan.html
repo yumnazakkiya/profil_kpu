@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Manage Jenis Kelamin</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* =============================
+   DATA MASTER TABLE STYLE
+============================= */
+
+.table-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.show-entries select,
+.search-box input {
+    height: 28px;
+    padding: 4px 8px;
+}
+
+.table-header {
+    background: #8b0000;
+    color: white;
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.table-master {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-master th,
+.table-master td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: center;
+}
+
+.table-footer {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+}
+
+.tombol-previous {
+    background: #4b8df7;
+    color: #fff;
+    border: none;
+    padding: 8px 22px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.tombol-next {
+    background: #4b8df7;
+    color: #fff;
+    border: none;
+    padding: 8px 22px;
+    border-radius: 5px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+    </style>
+</head>
+<body class="role-admin" data-jenis="golongan">
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+    <div class="logo">
+        <span>LOGO</span>
+        <button class="tombol-menu" id="tombolMenu">✕</button>
+    </div>
+
+    <hr class="garis-menu">
+
+    <div class="item-menu">Profil Data Pegawai</div>
+    <hr class="garis-menu">
+
+    <div class="item-menu">Tambah Data Pegawai Baru</div>
+    <hr class="garis-menu">
+
+    <div class="item-menu">Pengaturan Akun</div>
+    <hr class="garis-menu">
+
+    <div class="item-menu aktif" id="menuDataMaster">
+        Data Master
+        <span class="panah-menu" id="panahDataMaster">▼</span>
+    </div>
+
+    <div class="submenu aktif" id="submenuDataMaster">
+        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
+        <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
+        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu">Status Perkawinan</a>
+        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu">Jenjang Pendidikan</a>
+        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu">Hubungan Keluarga</a>
+        <a href="Admin_DM_Golongan.html" class="item-submenu aktif">Golongan</a>
+        <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_UnitKerja.html" class="item-submenu">Unit Kerja / Divisi</a>
+        <a href="Admin_DM_JenisDiklat.html" class="item-submenu">Jenis Diklat</a>
+        <a href="Admin_DM_PredikatSKP.html" class="item-submenu">Predikat SKP</a>
+    </div>
+
+    <hr class="garis-menu">
+</aside>
+
+<!-- KONTEN -->
+<main class="konten">
+
+    <h2>Data Master</h2>
+
+    <!-- BARIS ATAS -->
+    <div class="table-top">
+        <div class="show-entries">
+            Show 
+            <select id="entriesSelect">
+                <option value="5">5</option>
+                <option value="10" selected>10</option>
+                <option value="25">25</option>
+            </select>
+            Entries
+        </div>
+
+        <div class="search-box">
+            Search 
+            <input type="text" id="searchInput" placeholder="Cari...">
+        </div>
+    </div>
+
+    <!-- HEADER MERAH -->
+    <div class="table-header">
+        <span>Manage Golongan</span>
+        <div>
+            <button class="tombol-hapus" onclick="hapusTerpilih()">Delete</button>
+            <button class="tombol-tambah" onclick="tambahData()">+ Add New</button>
+        </div>
+    </div>
+
+    <!-- TABEL -->
+    <table class="table-master">
+        <thead>
+            <tr>
+                <th width="5%">
+                    <input type="checkbox" id="checkAll">
+                </th>
+                <th>Golongan</th>
+                <th>Nama Pangkat</th>
+                <th>Keterangan</th>
+
+                <th width="15%">Aksi</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+    </table>
+
+    <!-- FOOTER TABLE -->
+    <div class="table-footer">
+        <div id="infoText">Showing 1 to 0 of 0 entries</div>
+        <div id="pagination">
+            <button class="tombol-previous" onclick="prevPage()">Previous</button>
+            <button class="tombol-next" onclick="nextPage()">Next</button>
+        </div>
+    </div>
+
+</main>
+
+<!-- <script src="script.js"></script> -->
+ <script src="core-ui.js"></script>
+  <script src="datamaster.js"></script>
+
+
+ 
+</body>
+</html>

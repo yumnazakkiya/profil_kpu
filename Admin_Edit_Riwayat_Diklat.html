@@ -40,6 +40,17 @@
         border-bottom: 2px solid #7b0000; 
     }
 
+    .item-menu {
+    display: block;
+    padding: 8px 5px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    color: white;
+    cursor: pointer;
+}
+
+
       
     </style>
 
@@ -47,40 +58,7 @@
 <body class="role-admin">
 
 <!-- SIDEBAR -->
-<!-- <aside class="sidebar" id="sidebar">
-    <div class="logo">
-        <span>LOGO</span>
-        <button class="tombol-menu" id="tombolMenu">✕</button>
-    </div>
 
-    <hr class="garis-menu">
-
-    <div class="item-menu">Profil</div>
-
-    <hr class="garis-menu">
-
-    <div class="item-menu aktif" id="menuEditData">
-        Edit Data
-        <span class="panah-menu" id="panahEditData">▼</span>
-    </div>
-
-    <div class="submenu" id="submenuEditData">
-        <a href="Edit_Identitas_User.html" class="item-submenu">Identitas</a>
-        <a href="Edit_Riwayat_Golongan_User.html" class="item-submenu">Riwayat Golongan</a>
-        <a href="Edit_Riwayat_Jabatan_User.html" class="item-submenu">Riwayat Jabatan</a>
-        <a href="Edit_Riwayat_Pendidikan_User.html" class="item-submenu">Riwayat Pendidikan</a>
-        <a href="#" class="item-submenu aktif">Riwayat Diklat</a>
-        <a href="Edit_Riwayat_Keluarga_User.html" class="item-submenu">Riwayat Keluarga</a>
-        <a href="Edit_Riwayat_Kehormatan_User.html" class="item-submenu">Riwayat Kehormatan</a>
-        <a href="Edit_Riwayat_SKP_User.html" class="item-submenu">Riwayat SKP</a>
-    </div>
-
-    <hr class="garis-menu">
-
-    <div class="item-menu">Pengaturan Akun</div>
-
-    <hr class="garis-menu">
-</aside> -->
 
 <aside class="sidebar" id="sidebar">
     
@@ -92,19 +70,48 @@
 
       <hr class="garis-menu" />
 
-      <div class="item-menu aktif">Profil Data Pegawai</div>
+      <a href="Admin_Profil_Data_Pegawai.html" class="item-menu aktif">
+        Profil Data Pegawai
+    </a>
 
       <hr class="garis-menu" />
 
-      <div class="item-menu">Tambah Data Pegawai Baru</div>
+      <a href="Admin_Tambah_Data.html" class="item-menu">
+        Tambah Data Pegawai Baru
+    </a>
+
+      <!-- <div class="item-menu">Tambah Data Pegawai Baru</div> -->
 
       <hr class="garis-menu" />
 
-      <div class="item-menu">Pengaturan Akun</div>
+      <a href="Admin_Tambah_Data.html" class="item-menu">
+        Pengaturan Akun
+    </a>
 
       <hr class="garis-menu" />
 
-      <div class="item-menu">Data Master</div>
+       <div class="item-menu aktif" id="menuDataMaster">
+        Data Master
+        <span class="panah-menu" id="panahDataMaster">▼</span>
+    </div>
+
+    <div class="submenu aktif" id="submenuDataMaster">
+        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
+        <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
+        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu">Status Perkawinan</a>
+        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu aktif">Jenjang Pendidikan</a>
+        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu">Hubungan Keluarga</a>
+        <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
+        <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_UnitKerja.html" class="item-submenu">Unit Kerja / Divisi</a>
+        <a href="Admin_DM_JenisDiklat.html" class="item-submenu">Jenis Diklat</a>
+        <a href="Admin_DM_PredikatSKP.html" class="item-submenu">Predikat SKP</a>
+    </div>
+
+      <hr class="garis-menu" />
+       <a href="Admin_Manajemen_Akun.html" class="item-menu">
+       Manajemen Akun
+    </a>
 
       <hr class="garis-menu" />
     </aside>
@@ -112,19 +119,22 @@
 <!-- KONTEN -->
 <main class="konten">
 
-    <button class="tombol-keluar">Log Out</button>
-    
-     <!-- <div class="tab-menu">
-        <button class="tab">Identitas</button>
-        <button class="tab">Riwayat Golongan</button>
-        <button class="tab">Riwayat Jabatan</button>
-        <button class="tab">Riwayat Pendidikan</button>
-        <button class="tab aktif">Riwayat Diklat</button>
-        <button class="tab">Riwayat Keluarga</button>
-        <button class="tab">Riwayat Tanda Jasa</button>
-        <button class="tab">Riwayat SKP</button>
-      </div> -->
+<!-- <button class="tombol-keluar">Log Out</button> -->
+      <div class="user-profile" id="userProfile">
+        <div class="user-info">
+          <div class="user-icon">👤</div>
+          <div class="user-text">
+            <div class="user-name">TU SEKRETARIS KPU</div>
+            <!-- <div class="user-role">Tata Usaha</div> -->
+          </div>
+        </div>
 
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="#">Beranda</a>
+          <a href="#">Keluar</a>
+        </div>
+      </div>    
+     
       <div class="tab-menu">
     <a href="identitas-pegawai.html" class="tab">Identitas</a>
     <a href="Admin_Edit_Riwayat_Golongan.html" class="tab">Riwayat Golongan</a>
@@ -186,6 +196,8 @@
     </div>
 </main>
 
-<script src="script.js"></script>
+<!-- <script src="script.js"></script> -->
+<script src="core-ui.js"></script>
+<script src="datamaster.js"></script>
 </body>
 </html>

@@ -40,28 +40,70 @@
         border-bottom: 2px solid #7b0000; 
     }
 
+     /* NEW PROFIL */
+      /* USER PROFILE */
+      .user-profile {
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        cursor: pointer;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: #f2f2f2;
+        padding: 10px 15px;
+        border-radius: 15px;
+      }
+
+      .user-icon {
+        font-size: 24px;
+      }
+
+      .user-name {
+        font-weight: bold;
+        font-size: 14px;
+      }
+
+      
+      /* DROPDOWN */
+      .dropdown-menu {
+        display: none;
+        position: absolute;
+        top: 60px;
+        right: 0;
+        background: #f2f2f2;
+        border-radius: 15px;
+        padding: 15px 20px;
+        width: 200px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      .dropdown-menu a {
+        display: block;
+        text-decoration: none;
+        color: #2c3e50;
+        font-weight: 600;
+        margin-bottom: 15px;
+      }
+
+      .dropdown-menu a:last-child {
+        margin-bottom: 0;
+      }
+
+      /* TAMPIL SAAT AKTIF */
+      .user-profile.active .dropdown-menu {
+        display: block;
+      }
+
       
     </style>
   </head>
   <body class="role-admin">
     <!-- SIDEBAR MINIMAL -->
-    <!-- <aside class="sidebar"> -->
-    <!-- <aside class="sidebar" id="sidebar">
 
-    <div class="logo">
-        <span>LOGO</span>
-        
-        <button id="btnToggle" class="btn-toggle">✕</button>
-
-    </div>
-
-    <nav class="menu">
-        <a href="#" class="menu-item aktif">Profil Data Pegawai</a>
-        <a href="#" class="menu-item">Tambah Data Pegawai Baru</a>
-        <a href="#" class="menu-item">Pengaturan Akun</a>
-        <a href="#" class="menu-item">Data Master</a>
-    </nav>
-</aside> -->
 
 <!-- TOMBOL KELUAR -->
 <!-- <button class="tombol-keluar">Log Out</button> -->
@@ -96,25 +138,25 @@
     
 
     <main class="konten">
-      <!-- <header class="header">
-        <h1>Data Pegawai</h1>
-        <button class="btn-logout">⮐ LOG OUT</button>
-      </header> -->
+    
 
-    <button class="tombol-keluar">Log Out</button>
 
-      <!-- TAB MENU -->
-      <!-- <div class="tab-menu">
-        <button class="tab aktif">Identitas</button>
-        <button class="tab">Riwayat Golongan</button>
-        <button class="tab">Riwayat Jabatan</button>
-        <button class="tab">Riwayat Pendidikan</button>
-        <button class="tab">Riwayat Diklat</button>
-        <button class="tab">Riwayat Keluarga</button>
-        <button class="tab">Riwayat Tanda Jasa</button>
-        <button class="tab">Riwayat SKP</button>
-      </div> -->
+    <!-- <button class="tombol-keluar">Log Out</button> -->
+      <div class="user-profile" id="userProfile">
+        <div class="user-info">
+          <div class="user-icon">👤</div>
+          <div class="user-text">
+            <div class="user-name">TU SEKRETARIS KPU</div>
+            <!-- <div class="user-role">Tata Usaha</div> -->
+          </div>
+        </div>
 
+        <div class="dropdown-menu" id="dropdownMenu">
+          <a href="#">Beranda</a>
+          <a href="#">Keluar</a>
+        </div>
+      </div>
+    
       <div class="tab-menu">
     <a href="identitas-pegawai.html" class="tab aktif">Identitas</a>
     <a href="Admin_Edit_Riwayat_Golongan.html" class="tab">Riwayat Golongan</a>
@@ -139,23 +181,7 @@
             <button class="tombol-unggah">UNGGAH FOTO</button>
         </div>
 
-        <!-- FORM -->
-        <!-- <div class="form-grid">
-          <label>Nama</label><input type="text" /> <label>NIP</label
-          ><input type="text" /> <label>Pangkat/Gol/Ruang/TMT</label
-          ><input type="text" /> <label>Jabatan Terakhir / TMT</label
-          ><input type="text" /> <label>TMT CPNS</label><input type="date" />
-          <label>TMT PNS</label><input type="date" />
-          <label>Tempat & Tanggal Lahir</label><input type="text" />
-          <label>Jenis Kelamin</label><input type="text" /> <label>Agama</label
-          ><input type="text" /> <label>Status Perkawinan</label
-          ><input type="text" /> <label>Unit Kerja</label><input type="text" />
-          <label>Instansi</label><input type="text" />
-          <label>Alamat Rumah</label><input type="text" />
-        </div>
-      </section> -->
-
-      <div class="form">
+              <div class="form">
             <div class="baris-form"><label>Nama</label><input></div>
             <div class="baris-form"><label>NIP</label><input></div>
             <div class="baris-form"><label>Pangkat/Gol. Ruang/TMT</label><input></div>
@@ -179,10 +205,7 @@
 
 
 
-      <!-- <div class="aksi-bawah">
-        <button class="btn-ubah">UBAH</button>
-        <button class="btn-hapus">HAPUS</button>
-      </div> -->
+     
     </main>
 
     <script src="script.js"></script>
