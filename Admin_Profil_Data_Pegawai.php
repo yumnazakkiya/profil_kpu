@@ -1,3 +1,23 @@
+<?php
+include 'koneksi.php';
+
+$query = mysqli_query($conn,"
+SELECT 
+pegawai.nip,
+pegawai.nama_pegawai,
+master_jabatan.nama_jabatan,
+master_golongan.nama_pangkat
+FROM pegawai
+LEFT JOIN riwayat_jabatan 
+ON pegawai.nip = riwayat_jabatan.nip
+LEFT JOIN master_jabatan 
+ON riwayat_jabatan.id_jabatan = master_jabatan.id_jabatan
+LEFT JOIN riwayat_golongan 
+ON pegawai.nip = riwayat_golongan.nip
+LEFT JOIN master_golongan 
+ON riwayat_golongan.id_gol = master_golongan.id_gol
+");
+?>
 <!doctype html>
 <html lang="id">
   <head>
@@ -114,7 +134,7 @@
 
       <hr class="garis-menu" />
 
-      <a href="Admin_Tambah_Data.html" class="item-menu">
+      <a href="Admin_Tambah_Data.php" class="item-menu">
         Tambah Data Pegawai Baru
       </a>
 
@@ -214,7 +234,7 @@
             <th>Aksi</th>
           </tr>
         </thead>
-        <tbody id="isiTabel">
+        <!-- <tbody id="isiTabel">
           <tr>
             <td>1</td>
             <td>Contoh Nama</td>
@@ -229,7 +249,35 @@
               🖨
             </td>
           </tr>
-        </tbody>
+        </tbody> -->
+        <tbody>
+<?php
+$no = 1;
+$query = mysqli_query($conn, "SELECT * FROM pegawai");
+
+while($data = mysqli_fetch_assoc($query)) {
+?>
+<tr>
+  <td><?= $no++; ?></td>
+  <td><?= $data['nama_pegawai']; ?></td>
+
+  <!-- sementara -->
+  <td><?= $data['nama_jabatan'] ?? '-'; ?></td>
+  <td><?= $data['nama_pangkat'] ?? '-'; ?></td>
+
+  <td><?= $data['nip']; ?></td>
+
+  <!-- sementara -->
+  <td>-</td>
+  <td>-</td>
+
+  <td class="aksi">
+    👁
+    <a href="identitas-pegawai.php?nip=<?= $data['nip']; ?>">✏️</a>
+  </td>
+</tr>
+<?php } ?>
+</tbody>
       </table>
     </main>
 
@@ -238,22 +286,6 @@
     <script src="datamaster.js"></script>
     <script src="admin-ui.js"></script>
 
-    <!-- <script>
-      // Dropdown User Profile
-      const userProfile = document.getElementById("userProfile");
-
-      if (userProfile) {
-        userProfile.addEventListener("click", function () {
-          userProfile.classList.toggle("active");
-        });
-
-        // Tutup jika klik luar
-        document.addEventListener("click", function (e) {
-          if (!userProfile.contains(e.target)) {
-            userProfile.classList.remove("active");
-          }
-        });
-      }
-    </script> -->
+    
   </body>
 </html>
