@@ -1,3 +1,7 @@
+
+<?php
+include 'koneksi.php';
+?>
 <!doctype html>
 <html lang="id">
   <head>

@@ -16,6 +16,8 @@ if(isset($_POST['tambah'])) {
     $id_status_perkawinan = $_POST['id_status_perkawinan'];
     $tempat_lahir = $_POST['tempat_lahir'];
     $tanggal_lahir = $_POST['tanggal_lahir'];
+    $tipe_karyawan = $_POST['tipe_karyawan'];
+    $instansi = $_POST['instansi'];
 
     $tahun_skp = $_POST['tahun_skp'];
     $rerata_nilai = $_POST['rerata_nilai'];
@@ -34,24 +36,20 @@ if(isset($_POST['tambah'])) {
 
     $nama_keluarga = $_POST['nama_keluarga'];
     $id_hub_kel = $_POST['id_hub_kel'];
-    $jumlah = $_POST['jumlah'];
+    $no_telp = $_POST['no_telp'];
+    $alamat = $_POST['alamat'];
 
     $id_jabatan = $_POST['id_jabatan'];
     $tmt_jabatan = $_POST['tmt_jabatan'];
 
     $tmt_golongan = $_POST['tmt_golongan'];
-    
-    // mysqli_query($conn, "INSERT INTO pegawai 
-    // (nip, nama_pegawai, alamat, no_telp, tmt_cpns, tmt_pns) 
-    // VALUES 
-    // ('$nip','$nama','$alamat','$no_telp','$tmt_cpns','$tmt_pns')");
-
+      
    /* INSERT PEGAWAI */
 
 mysqli_query($conn,"INSERT INTO pegawai
-(nip,nama_pegawai,tempat_lahir,tanggal_lahir,alamat,no_telp,tmt_cpns,tmt_pns,id_agama,id_unit_kerja,id_gol,id_jenis_kelamin,id_status_perkawinan)
+(nip,nama_pegawai,tempat_lahir,tanggal_lahir,alamat,no_telp,tmt_cpns,tmt_pns,tipe_karyawan,instansi,id_agama,id_unit_kerja,id_gol,id_jenis_kelamin,id_status_perkawinan)
 VALUES
-('$nip','$nama','$tempat_lahir','$tanggal_lahir','$alamat','$no_telp','$tmt_cpns','$tmt_pns','$id_agama','$id_unit_kerja','$id_gol','$id_jenis_kelamin','$id_status_perkawinan')");
+('$nip','$nama','$tempat_lahir','$tanggal_lahir','$alamat','$no_telp','$tmt_cpns','$tmt_pns','$tipe_karyawan','$institusi','$id_agama','$id_unit_kerja','$id_gol','$id_jenis_kelamin','$id_status_perkawinan')");
 
 /* INSERT RIWAYAT SKP */
 
@@ -84,9 +82,9 @@ VALUES
 /* INSERT RIWAYAT KELUARGA */
 if(!empty($nama_keluarga)){
 mysqli_query($conn,"INSERT INTO riwayat_keluarga
-(nip,nama_keluarga,id_hub_kel,jumlah,no_telp,alamat)
+(nip,nama_keluarga,id_hub_kel,no_telp,alamat)
 VALUES
-('$nip','$nama_keluarga','$id_hub_kel','$jumlah','','')");
+('$nip','$nama_keluarga','$id_hub_kel', '$no_telp','$alamat')");
 }
 
 /* INSERT RIWAYAT JABATAN */
@@ -376,9 +374,7 @@ while($s = mysqli_fetch_assoc($status)){
 
             <div class="baris-form">
                 <label>Unit Kerja</label>
-                <!-- <select>
-                    <option>-- Pilih --</option>
-                </select> -->
+                
                 <select name="id_unit_kerja">
   <option value="">-- Pilih Unit --</option>
 
@@ -395,7 +391,12 @@ while($s = mysqli_fetch_assoc($status)){
 
             <div class="baris-form">
                 <label>Instansi</label>
-                <input type="text">
+                <input type="text" name="instansi">
+            </div>
+
+            <div class="baris-form">
+                <label>Tipe Karyawan</label>
+                <input type="text" name="tipe_karyawan" placeholder="Contoh: PNS, CPNS, PPP3, dll">
             </div>
 
             <div class="baris-form">
@@ -598,8 +599,13 @@ while($h = mysqli_fetch_assoc($hub)){
 </div>
 
 <div class="baris-form">
-<label>Jumlah</label>
-<input type="number" name="jumlah">
+<label>No. Telepon</label>
+<input type="number" name="no_telp">
+</div>
+
+<div class="baris-form">
+<label>Alamat</label>
+<input type="text" name="alamat">
 </div>
 
 </div>

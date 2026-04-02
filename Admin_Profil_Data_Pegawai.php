@@ -3,19 +3,41 @@ include 'koneksi.php';
 
 $query = mysqli_query($conn,"
 SELECT 
-pegawai.nip,
-pegawai.nama_pegawai,
-master_jabatan.nama_jabatan,
-master_golongan.nama_pangkat
-FROM pegawai
-LEFT JOIN riwayat_jabatan 
-ON pegawai.nip = riwayat_jabatan.nip
-LEFT JOIN master_jabatan 
-ON riwayat_jabatan.id_jabatan = master_jabatan.id_jabatan
-LEFT JOIN riwayat_golongan 
-ON pegawai.nip = riwayat_golongan.nip
-LEFT JOIN master_golongan 
-ON riwayat_golongan.id_gol = master_golongan.id_gol
+p.nip,
+p.nama_pegawai,
+p.tipe_karyawan,
+mj.nama_jabatan,
+mg.nama_pangkat,
+md.unit_kerja
+
+FROM pegawai p
+
+LEFT JOIN riwayat_jabatan rj 
+ON rj.id_riwayat_jabatan = (
+    SELECT id_riwayat_jabatan 
+    FROM riwayat_jabatan 
+    WHERE nip = p.nip 
+    ORDER BY id_riwayat_jabatan DESC 
+    LIMIT 1
+)
+
+LEFT JOIN master_jabatan mj 
+ON rj.id_jabatan = mj.id_jabatan
+
+LEFT JOIN riwayat_golongan rg 
+ON rg.id_riwayat_gol = (
+    SELECT id_riwayat_gol 
+    FROM riwayat_golongan 
+    WHERE nip = p.nip 
+    ORDER BY id_riwayat_gol DESC 
+    LIMIT 1
+)
+
+LEFT JOIN master_golongan mg 
+ON rg.id_gol = mg.id_gol
+
+LEFT JOIN master_divisi md
+ON p.id_unit_kerja = md.id_unit_kerja
 ");
 ?>
 <!doctype html>
@@ -128,7 +150,7 @@ ON riwayat_golongan.id_gol = master_golongan.id_gol
 
       <hr class="garis-menu" />
 
-      <a href="Admin_Profil_Data_Pegawai.html" class="item-menu aktif">
+      <a href="Admin_Profil_Data_Pegawai.php" class="item-menu aktif">
         Profil Data Pegawai
       </a>
 
@@ -140,7 +162,7 @@ ON riwayat_golongan.id_gol = master_golongan.id_gol
 
       <hr class="garis-menu" />
 
-      <a href="Admin_Pengaturan_Akun.html" class="item-menu">
+      <a href="Admin_Pengaturan_Akun.php" class="item-menu">
         Pengaturan Akun
       </a>
 
@@ -152,32 +174,32 @@ ON riwayat_golongan.id_gol = master_golongan.id_gol
       </div>
 
       <div class="submenu aktif" id="submenuDataMaster">
-        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
-        <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
-        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu"
+        <a href="Admin_DM_Gender.php" class="item-submenu">Jenis Kelamin</a>
+        <a href="Admin_DM_Agama.php" class="item-submenu">Agama</a>
+        <a href="Admin_DM_StatusPerkawinan.php" class="item-submenu"
           >Status Perkawinan</a
         >
-        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu"
+        <a href="Admin_DM_JenjangPendidikan.php" class="item-submenu"
           >Jenjang Pendidikan</a
         >
-        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu"
+        <a href="Admin_DM_HubunganKeluarga.php" class="item-submenu"
           >Hubungan Keluarga</a
         >
-        <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
-        <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
-        <a href="Admin_DM_UnitKerja.html" class="item-submenu"
+        <a href="Admin_DM_Golongan.php" class="item-submenu">Golongan</a>
+        <a href="Admin_DM_Jabatan.php" class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_UnitKerja.php" class="item-submenu"
           >Unit Kerja / Divisi</a
         >
-        <a href="Admin_DM_JenisDiklat.html" class="item-submenu"
+        <a href="Admin_DM_JenisDiklat.php" class="item-submenu"
           >Jenis Diklat</a
         >
-        <a href="Admin_DM_PredikatSKP.html" class="item-submenu"
+        <a href="Admin_DM_PredikatSKP.php" class="item-submenu"
           >Predikat SKP</a
         >
       </div>
 
       <hr class="garis-menu" />
-      <a href="Admin_Manajemen_Akun.html" class="item-menu">
+      <a href="Admin_Manajemen_Akun.php" class="item-menu">
         Manajemen Akun
     </a>
 
@@ -234,47 +256,33 @@ ON riwayat_golongan.id_gol = master_golongan.id_gol
             <th>Aksi</th>
           </tr>
         </thead>
-        <!-- <tbody id="isiTabel">
-          <tr>
-            <td>1</td>
-            <td>Contoh Nama</td>
-            <td>Staff</td>
-            <td>III A</td>
-            <td>123456789</td>
-            <td>Tetap</td>
-            <td>IT</td>
-            <td class="aksi">
-              👁
-              <a href="identitas-pegawai.html?id=1" title="Edit Data">✏️</a>
-              🖨
-            </td>
-          </tr>
-        </tbody> -->
+        
         <tbody>
 <?php
 $no = 1;
-$query = mysqli_query($conn, "SELECT * FROM pegawai");
 
 while($data = mysqli_fetch_assoc($query)) {
 ?>
 <tr>
-  <td><?= $no++; ?></td>
-  <td><?= $data['nama_pegawai']; ?></td>
 
-  <!-- sementara -->
-  <td><?= $data['nama_jabatan'] ?? '-'; ?></td>
-  <td><?= $data['nama_pangkat'] ?? '-'; ?></td>
+<td><?= $no++; ?></td>
 
-  <td><?= $data['nip']; ?></td>
+<td><?= $data['nama_pegawai']; ?></td>
 
-  <!-- sementara -->
-  <td>-</td>
-  <td>-</td>
+<td><?= $data['nama_jabatan'] ?? '-'; ?></td>
 
-  <td class="aksi">
-    👁
-    <a href="identitas-pegawai.php?nip=<?= $data['nip']; ?>">✏️</a>
-  </td>
+<td><?= $data['nama_pangkat'] ?? '-'; ?></td>
+
+<td><?= $data['nip']; ?></td>
+
+<td><?= $data['tipe_karyawan']; ?></td>
+<td><?= $data['unit_kerja'] ?? '-'; ?></td>
+
+<td class="aksi">
+👁
+<a href="identitas-pegawai.php?nip=<?= $data['nip']; ?>">✏️</a>
+</td>
+
 </tr>
 <?php } ?>
 </tbody>
