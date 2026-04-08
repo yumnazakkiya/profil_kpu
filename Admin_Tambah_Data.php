@@ -227,11 +227,6 @@ $predikat = mysqli_query($conn,"SELECT * FROM master_predikat_skp");
        
 
 
-
-
-      
-
-
     </style>
 </head>
 <body class="role-admin">
