@@ -1,44 +1,12 @@
 <?php
 include 'koneksi.php';
 
-$query = mysqli_query($conn,"
-SELECT 
-p.nip,
-p.nama_pegawai,
-p.tipe_karyawan,
-mj.nama_jabatan,
-mg.nama_pangkat,
-md.unit_kerja
+$limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$search = isset($_GET['search']) ? mysqli_real_escape_string($conn, $_GET['search']) : '';
 
-FROM pegawai p
+$offset = ($page - 1) * $limit;
 
-LEFT JOIN riwayat_jabatan rj 
-ON rj.id_riwayat_jabatan = (
-    SELECT id_riwayat_jabatan 
-    FROM riwayat_jabatan 
-    WHERE nip = p.nip 
-    ORDER BY id_riwayat_jabatan DESC 
-    LIMIT 1
-)
-
-LEFT JOIN master_jabatan mj 
-ON rj.id_jabatan = mj.id_jabatan
-
-LEFT JOIN riwayat_golongan rg 
-ON rg.id_riwayat_gol = (
-    SELECT id_riwayat_gol 
-    FROM riwayat_golongan 
-    WHERE nip = p.nip 
-    ORDER BY id_riwayat_gol DESC 
-    LIMIT 1
-)
-
-LEFT JOIN master_golongan mg 
-ON rg.id_gol = mg.id_gol
-
-LEFT JOIN master_divisi md
-ON p.id_unit_kerja = md.id_unit_kerja
-");
 ?>
 <!doctype html>
 <html lang="id">
@@ -46,100 +14,8 @@ ON p.id_unit_kerja = md.id_unit_kerja
     <meta charset="UTF-8" />
     <title>Data Pegawai</title>
     <link rel="stylesheet" href="style.css" />
-    <style>
-      .kontrol {
-        display: flex;
-        justify-content: space-between;
-        margin: 20px 0;
-        margin-top: 70px;
-      }
-
-      .kontrol select,
-      .kontrol input {
-        padding: 6px;
-        margin-left: 6px;
-      }
-
-      /* TABEL */
-      .tabel {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .tabel th,
-      .tabel td {
-        border: 1px solid #000;
-        padding: 10px;
-        text-align: center;
-      }
-
-      .tabel th {
-        font-weight: bold;
-      }
-
-      .aksi {
-        font-size: 18px;
-        cursor: pointer;
-      }
-
-      /* NEW PROFIL */
-      /* USER PROFILE */
-      .user-profile {
-        position: absolute;
-        top: 20px;
-        right: 40px;
-        cursor: pointer;
-      }
-
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: #f2f2f2;
-        padding: 10px 15px;
-        border-radius: 15px;
-      }
-
-      .user-icon {
-        font-size: 24px;
-      }
-
-      .user-name {
-        font-weight: bold;
-        font-size: 14px;
-      }
-
-      
-      /* DROPDOWN */
-      .dropdown-menu {
-        display: none;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        background: #f2f2f2;
-        border-radius: 15px;
-        padding: 15px 20px;
-        width: 200px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .dropdown-menu a {
-        display: block;
-        text-decoration: none;
-        color: #2c3e50;
-        font-weight: 600;
-        margin-bottom: 15px;
-      }
-
-      .dropdown-menu a:last-child {
-        margin-bottom: 0;
-      }
-
-      /* TAMPIL SAAT AKTIF */
-      .user-profile.active .dropdown-menu {
-        display: block;
-      }
-    </style>
+    <link rel="stylesheet" href="profil_data.css" />   
+    
   </head>
   <body class="role-admin">
     <aside class="sidebar" id="sidebar">
@@ -196,6 +72,8 @@ ON p.id_unit_kerja = md.id_unit_kerja
         <a href="Admin_DM_PredikatSKP.php" class="item-submenu"
           >Predikat SKP</a
         >
+        <a href="Admin_DM_KabupatenKota.php" class="item-submenu">Kabupaten/Kota</a>
+
       </div>
 
       <hr class="garis-menu" />
@@ -228,17 +106,17 @@ ON p.id_unit_kerja = md.id_unit_kerja
       <section class="kontrol">
         <div>
           Tampilkan
-          <select id="jumlahData">
-            <option>10</option>
-            <option>25</option>
-            <option>50</option>
-          </select>
+<select id="jumlahData">
+  <option value="10" <?= ($limit==10?'selected':'') ?>>10</option>
+  <option value="25" <?= ($limit==25?'selected':'') ?>>25</option>
+  <option value="50" <?= ($limit==50?'selected':'') ?>>50</option>
+</select>
           Entri
         </div>
 
         <div>
           Cari
-          <input type="text" id="pencarian" placeholder="Cari data..." />
+          <input type="text" id="pencarian" placeholder="Cari data..." value="<?= $search ?>" />
         </div>
       </section>
 
@@ -257,43 +135,137 @@ ON p.id_unit_kerja = md.id_unit_kerja
           </tr>
         </thead>
         
-        <tbody>
-<?php
-$no = 1;
-
-while($data = mysqli_fetch_assoc($query)) {
-?>
-<tr>
-
-<td><?= $no++; ?></td>
-
-<td><?= $data['nama_pegawai']; ?></td>
-
-<td><?= $data['nama_jabatan'] ?? '-'; ?></td>
-
-<td><?= $data['nama_pangkat'] ?? '-'; ?></td>
-
-<td><?= $data['nip']; ?></td>
-
-<td><?= $data['tipe_karyawan']; ?></td>
-<td><?= $data['unit_kerja'] ?? '-'; ?></td>
-
-<td class="aksi">
-👁
-<a href="identitas-pegawai.php?nip=<?= $data['nip']; ?>">✏️</a>
-</td>
-
-</tr>
-<?php } ?>
-</tbody>
+        <tbody id="dataTabel"></tbody>
       </table>
+<div class="table-footer">
+    <div id="infoData"></div>
+    <div id="pagination"></div>
+</div>
     </main>
 
     <!-- <script src="script.js"></script> -->
     <script src="core-ui.js"></script>
     <script src="datamaster.js"></script>
     <script src="admin-ui.js"></script>
+    <script>
+document.getElementById("jumlahData").addEventListener("change", () => {
+    page = 1;
+    loadData();
+});
 
-    
+document.getElementById("pencarian").addEventListener("keypress", function(e) {
+    if (e.key === "Enter") {
+        let search = this.value;
+        let limit = document.getElementById("jumlahData").value;
+
+        window.location.href = "?limit=" + limit + "&search=" + search;
+    }
+});
+
+let page = 1;
+
+function loadData() {
+    let limit = document.getElementById("jumlahData").value;
+    let search = document.getElementById("pencarian").value;
+
+    fetch(`get_data_pegawai.php?limit=${limit}&page=${page}&search=${search}`)
+    .then(res => res.json())
+    .then(res => {
+
+        let html = "";
+        let no = 1;
+
+        res.data.forEach(item => {
+            html += `
+            <tr>
+                <td>${no++}</td>
+                <td>${item.nama_pegawai}</td>
+                <td>${item.nama_jabatan ?? '-'}</td>
+                <td>${item.nama_pangkat ?? '-'}</td>
+                <td>${item.nip}</td>
+                <td>${item.tipe_karyawan}</td>
+                <td>${item.unit_kerja ?? '-'}</td>
+                <td>👁 <a href="identitas-pegawai.php?nip=${item.nip}">✏️</a></td>
+            </tr>
+            `;
+        });
+
+        document.getElementById("dataTabel").innerHTML = html;
+
+        // BUAT PAGINATION
+        buatPagination(res.totalPage);
+
+        updateInfo(res.totalData)
+    });
+}
+// EVENT
+document.getElementById("jumlahData").addEventListener("change", () => {
+    page = 1;
+    loadData();
+});
+
+document.getElementById("pencarian").addEventListener("keyup", () => {
+    page = 1;
+    loadData();
+});
+
+// LOAD AWAL
+loadData();
+
+
+function buatPagination(totalPage) {
+    let html = "";
+
+    let maxPage = 5; // maksimal tombol angka tampil
+    let start = Math.max(1, page - 2);
+    let end = Math.min(totalPage, start + maxPage - 1);
+
+    // PREV
+    html += `<button ${page == 1 ? 'disabled' : ''} onclick="prevPage()">Previous</button>`;
+
+    // ANGKA
+    for (let i = start; i <= end; i++) {
+        html += `
+        <button 
+            onclick="goPage(${i})" 
+            class="${page == i ? 'active-page' : ''}">
+            ${i}
+        </button>`;
+    }
+
+    // NEXT
+    html += `<button ${page == totalPage ? 'disabled' : ''} onclick="nextPage(${totalPage})">Next</button>`;
+
+    document.getElementById("pagination").innerHTML = html;
+}
+
+function goPage(p) {
+    page = p;
+    loadData();
+}
+
+function prevPage() {
+    if (page > 1) {
+        page--;
+        loadData();
+    }
+}
+
+function nextPage(totalPage) {
+    if (page < totalPage) {
+        page++;
+        loadData();
+    }
+}
+
+function updateInfo(totalData) {
+    let limit = document.getElementById("jumlahData").value;
+    let start = (page - 1) * limit + 1;
+    let end = Math.min(page * limit, totalData);
+
+    document.getElementById("infoData").innerHTML =
+        `Showing ${start}–${end} of ${totalData} entries`;
+}
+</script>    
   </body>
 </html>

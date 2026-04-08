@@ -313,6 +313,7 @@ if(isset($_POST['tambah'])){
         <a href="Admin_DM_PredikatSKP.php" class="item-submenu"
           >Predikat SKP</a
         >
+        <a href="Admin_DM_KabupatenKota.php" class="item-submenu">Kabupaten/Kota</a>
       </div>
 
       <hr class="garis-menu" />

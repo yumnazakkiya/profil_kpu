@@ -92,19 +92,19 @@ include 'koneksi.php';
 
       <hr class="garis-menu" />
 
-      <a href="Admin_Profil_Data_Pegawai.html" class="item-menu">
+      <a href="Admin_Profil_Data_Pegawai.php" class="item-menu aktif">
         Profil Data Pegawai
       </a>
 
       <hr class="garis-menu" />
 
-      <a href="Admin_Tambah_Data.html" class="item-menu">
+      <a href="Admin_Tambah_Data.php" class="item-menu">
         Tambah Data Pegawai Baru
       </a>
 
       <hr class="garis-menu" />
 
-      <a href="Admin_Pengaturan_Akun.html" class="item-menu aktif">
+      <a href="Admin_Pengaturan_Akun.php" class="item-menu aktif">
         Pengaturan Akun
       </a>
 
@@ -115,35 +115,38 @@ include 'koneksi.php';
         <span class="panah-menu" id="panahDataMaster">▼</span>
       </div>
 
-      <div class="submenu aktif" id="submenuDataMaster">
-        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
-        <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
-        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu"
+      <div class="submenu" id="submenuDataMaster">
+        <a href="Admin_DM_Gender.php" class="item-submenu">Jenis Kelamin</a>
+        <a href="Admin_DM_Agama.php" class="item-submenu">Agama</a>
+        <a href="Admin_DM_StatusPerkawinan.php" class="item-submenu"
           >Status Perkawinan</a
         >
-        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu"
+        <a href="Admin_DM_JenjangPendidikan.php" class="item-submenu"
           >Jenjang Pendidikan</a
         >
-        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu"
+        <a href="Admin_DM_HubunganKeluarga.php" class="item-submenu"
           >Hubungan Keluarga</a
         >
-        <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
-        <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
-        <a href="Admin_DM_UnitKerja.html" class="item-submenu"
+        <a href="Admin_DM_Golongan.php" class="item-submenu">Golongan</a>
+        <a href="Admin_DM_Jabatan.php" class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_UnitKerja.php" class="item-submenu"
           >Unit Kerja / Divisi</a
         >
-        <a href="Admin_DM_JenisDiklat.html" class="item-submenu"
+        <a href="Admin_DM_JenisDiklat.php" class="item-submenu"
           >Jenis Diklat</a
         >
-        <a href="Admin_DM_PredikatSKP.html" class="item-submenu"
+        <a href="Admin_DM_PredikatSKP.php" class="item-submenu"
           >Predikat SKP</a
         >
+        <a href="Admin_DM_KabupatenKota.php" class="item-submenu">Kabupaten/Kota</a>
       </div>
 
       <hr class="garis-menu" />
-      <a href="Admin_Manajemen_Akun.html" class="item-menu"> Manajemen Akun </a>
+      <a href="Admin_Manajemen_Akun.php" class="item-menu">
+        Manajemen Akun
+    </a>
 
-      <hr class="garis-menu" />
+    <hr class="garis-menu">
     </aside>
 
     <!-- KONTEN -->

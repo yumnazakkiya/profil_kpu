@@ -191,37 +191,7 @@ $kabupaten = mysqli_query($conn,"SELECT * FROM master_kabupaten ORDER BY nama_ka
     <title>Identitas Pegawai</title>
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="edit_identitas.css" />
-    <style>
-      /* .foto-preview {
-        width: 160px;
-    height: 200px;
-    background: #d9d9d9;
-    margin-bottom: 10px;
-    border: 2px solid #999;
-      }
-      .tombol-unggah {
-        display: inline-block;
-        margin-top: 10px;
-        padding: 6px 12px;
-        background-color: #007bff;
-        color: #fff;
-        border-radius: 4px;
-        cursor: pointer;
-        text-align: center;
-      }
-      .tombol-unggah:hover {
-        background-color: #0056b3;
-      }
-
-      .kotak-foto {
-  width: 180px;
-  display: flex;              
-  flex-direction: column;     
-  align-items: center;        
-} */
-
-      
-    </style>
+    
 
   </head>
   <body class="role-admin">
