@@ -143,8 +143,8 @@ body {
 
 /*KONTEN*/
 .konten {
-  flex: 1;
-  padding: 20px 40px 30px;
+  /* flex: 1;
+  padding: 20px 40px 30px; */
   /* new */
   position: relative;
   /* end new */
@@ -164,20 +164,17 @@ body {
 }
 
 /*FOTO*/
-.kotak-foto {
-  width: 180px;
-  text-align: center;
-}
 
-.pratinjau-foto {
+
+/* .pratinjau-foto {
   width: 160px;
   height: 200px;
   background: #d9d9d9;
   margin-bottom: 10px;
   border: 2px solid #999;
-}
+} */
 
-.tombol-unggah {
+/* .tombol-unggah {
   background: #007bff;
   color: #fff;
   border: none;
@@ -185,7 +182,12 @@ body {
   font-size: 13px;
   border-radius: 4px;
   cursor: pointer;
-}
+} */
+
+/* .tombol-unggah {
+  width: 160px;
+  text-align: center;
+} */
 
 /*FORM*/
 .form {
@@ -275,13 +277,19 @@ body {
   flex-direction: column;
   gap: 10px;
 }
-
-.tabel-riwayat {
+/* COBA */
+/* .tabel-riwayat {
   width: 700px;
   max-width: 100%;
   margin-top: 30px;
+} */
+
+.tabel-riwayat{
+width:750px;
+margin-top:30px;
 }
 
+/* COBA END */
 .tabel-riwayat th,
 .tabel-riwayat td {
   border: 0.8px solid #555;

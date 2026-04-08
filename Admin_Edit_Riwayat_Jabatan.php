@@ -2,9 +2,18 @@
 session_start();
 include "koneksi.php";
 
+/* =========================
+   AMBIL DATA PEGAWAI
+   ========================= */
+
 $nip = $_POST['nip'] ?? $_GET['nip'] ?? '';
+
 $query = mysqli_query($conn,"SELECT * FROM pegawai WHERE nip='$nip'");
-$data = mysqli_fetch_assoc($query);
+$pegawai = mysqli_fetch_assoc($query);
+
+if(!$pegawai){
+    die("Data pegawai tidak ditemukan");
+}
 
 
 /* =========================
@@ -15,6 +24,8 @@ if(isset($_POST['tambah'])){
 
 $id_jabatan = $_POST['id_jabatan'];
 $tmt_jabatan = $_POST['tmt_jabatan'];
+$tmt_akhir = $_POST['tmt_akhir'];
+
 
 if(!empty($id_jabatan) && !empty($tmt_jabatan)){
 
@@ -23,29 +34,23 @@ SELECT * FROM riwayat_jabatan
 WHERE nip='$nip'
 AND id_jabatan='$id_jabatan'
 AND tmt_jabatan='$tmt_jabatan'
+AND tmt_akhir='$tmt_akhir'
 ");
 
 if(mysqli_num_rows($cek)==0){
 
 mysqli_query($conn,"
 INSERT INTO riwayat_jabatan
-(
-nip,
-id_jabatan,
-id_unit_kerja,
-tmt_jabatan
-)
+(nip, id_jabatan, id_unit_kerja, tmt_jabatan, tmt_akhir)
 VALUES
-(
-'$nip',
-'$id_jabatan',
-'1',
-'$tmt_jabatan'
-)
+('$nip','$id_jabatan','$pegawai[id_unit_kerja]','$tmt_jabatan', '$tmt_akhir')
 ");
 
 header("Location: Admin_Edit_Riwayat_Jabatan.php?nip=$nip");
 exit;
+
+}else{
+echo "<script>alert('Data sudah ada');</script>";
 }
 }
 }
@@ -60,14 +65,20 @@ if(isset($_POST['ubah'])){
 $id = $_POST['id_riwayat_jabatan'];
 $id_jabatan = $_POST['id_jabatan'];
 $tmt_jabatan = $_POST['tmt_jabatan'];
+$tmt_akhir = $_POST['tmt_akhir'];
 
-if(!empty($id) && !empty($id_jabatan) && !empty($tmt_jabatan)){
+
+if(empty($id)){
+    die("Pilih data dulu");
+}
+
+if(!empty($id_jabatan) && !empty($tmt_jabatan)){
 
 mysqli_query($conn,"
 UPDATE riwayat_jabatan
-SET
-id_jabatan='$id_jabatan',
-tmt_jabatan='$tmt_jabatan'
+SET id_jabatan='$id_jabatan',
+    tmt_jabatan='$tmt_jabatan',
+    tmt_akhir='$tmt_akhir'
 WHERE id_riwayat_jabatan='$id'
 ");
 
@@ -85,6 +96,10 @@ if(isset($_POST['hapus'])){
 
 $id = $_POST['id_riwayat_jabatan'];
 
+if(empty($id)){
+    die("Pilih data dulu");
+}
+
 mysqli_query($conn,"
 DELETE FROM riwayat_jabatan
 WHERE id_riwayat_jabatan='$id'
@@ -92,8 +107,8 @@ WHERE id_riwayat_jabatan='$id'
 
 header("Location: Admin_Edit_Riwayat_Jabatan.php?nip=$nip");
 exit;
-
 }
+
 ?>
 
 <!DOCTYPE html>
@@ -102,74 +117,8 @@ exit;
 <meta charset="UTF-8">
 <title>Edit Data – Riwayat Jabatan</title>
 <link rel="stylesheet" href="style.css" />
-<style>
-.sidebar-edit {
-    width: 179px;
-    background: linear-gradient(to bottom, #8b0000, #3b0000);
-    color: #fff;
-    padding: 20px 15px;
-    min-height: 100vh;
-}
+<link rel="stylesheet" href="edit_riwayat.css" />
 
-.form-edit {
-    max-width: 800px;
-    margin-top: 30px;
-    flex: 1;
-}
-
-/* Sidebar default putih */
-.sidebar-edit {
-    color: white;
-}
-
-/* Paksa menu jadi biru */
-.sidebar-edit .item-menu {
-    display: block;
-    padding: 8px 5px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-
-    color: #fff !important;   /* pakai ini kalau masih ketimpa */
-    text-decoration: none;
-}
-/* Wrapper foto + form */
-.bagian-identitas {
-    display: flex;
-    align-items: flex-start;
-    gap: 60px;
-    margin-top: 60px; /* supaya turun dari judul */
-}
-
-/* Hilangkan efek visited */
-.sidebar-edit .item-menu:visited {
-    color: #fff !important;
-    text-decoration: none;
-}
-
-/* Aktif pakai underline */
-.sidebar-edit .item-menu.aktif {
-    text-decoration: underline;
-}
-.tabel-riwayat tr{
-cursor:pointer;
-}
-
-.tabel-riwayat tr:hover{
-background:#f1f1f1;
-}
-
-.tabel-riwayat{
-width:750px;
-margin-top:30px;
-}
-
-.bagian-identitas{
-display:flex;
-justify-content:center;
-margin-top: 20px;
-}
-</style>
 </head>
 
 <body class="role-admin">
@@ -259,67 +208,64 @@ margin-top: 20px;
         </div>
       </div>
       <div class="tab-menu">
-    <a href="identitas-pegawai.php" class="tab">Identitas</a>
-    <a href="Admin_Edit_Riwayat_Golongan.php" class="tab">Riwayat Golongan</a>
-    <a href="Admin_Edit_Riwayat_Jabatan.php" class="tab aktif">Riwayat Jabatan</a>
-    <a href="Admin_Edit_Riwayat_Pendidikan.php" class="tab">Riwayat Pendidikan</a>
-    <a href="Admin_Edit_Riwayat_Diklat.php" class="tab">Riwayat Diklat</a>
-    <a href="Admin_Edit_Riwayat_Keluarga.php" class="tab">Riwayat Keluarga</a>
-    <a href="Admin_Edit_Riwayat_Kehormatan.php" class="tab">Riwayat Kehormatan</a>
-    <a href="Admin_Edit_Riwayat_SKP.php" class="tab">Riwayat SKP</a>
-</div>
+    <a href="identitas-pegawai.php?nip=<?= $nip ?>" class="tab">Identitas</a>
+    <a href="Admin_Edit_Riwayat_Golongan.php?nip=<?= $nip ?>" class="tab">Riwayat Golongan</a>
+    <a href="Admin_Edit_Riwayat_Jabatan.php?nip=<?= $nip ?>" class="tab aktif">Riwayat Jabatan</a>
+    <a href="Admin_Edit_Riwayat_Pendidikan.php?nip=<?= $nip ?>" class="tab">Riwayat Pendidikan</a>
+    <a href="Admin_Edit_Riwayat_Diklat.php?nip=<?= $nip ?>" class="tab">Riwayat Diklat</a>
+    <a href="Admin_Edit_Riwayat_Keluarga.php?nip=<?= $nip ?>" class="tab">Riwayat Keluarga</a>
+    <a href="Admin_Edit_Riwayat_Kehormatan.php?nip=<?= $nip ?>" class="tab">Riwayat Kehormatan</a>
+    <a href="Admin_Edit_Riwayat_SKP.php?nip=<?= $nip ?>" class="tab">Riwayat SKP</a>
+      </div>
 
+      
 <div class="bagian-identitas">
 <div class="form-edit">
 <form method="POST">
 <input type="hidden" name="nip" value="<?= $nip ?>">
 <input type="hidden" name="id_riwayat_jabatan" id="id_riwayat_jabatan">
 
+<!-- TAMBAH -->
 <div class="baris-form" style="grid-template-columns:120px 500px 120px">
+    <label>Nama Jabatan</label>
 
-<label>Nama Jabatan</label>
+    <select name="id_jabatan" style="height:30px; border:1px solid #888;">
+        <option value="">Pilih Jabatan</option>
 
-<select name="id_jabatan" style="height:30px; border:1px solid #888;">
+        <?php
+        $qJabatan = mysqli_query($conn,"SELECT * FROM master_jabatan ORDER BY jenis_jabatan");
 
-<option value="">Pilih Jabatan</option>
+        while($j = mysqli_fetch_assoc($qJabatan)){
+            echo "<option value='$j[id_jabatan]'>$j[jenis_jabatan] - $j[nama_jabatan]</option>";
+        }
+        ?>
+    </select>
 
-<?php
-$qJabatan = mysqli_query($conn,"SELECT * FROM master_jabatan ORDER BY jenis_jabatan");
-
-while($j = mysqli_fetch_assoc($qJabatan)){
-
-echo "<option value='$j[id_jabatan]'>$j[jenis_jabatan] - $j[nama_jabatan]</option>";
-
-}
-?>
-
-</select>
-
-<button type="submit" name="tambah" class="tombol-tambah btn-kecil">
-TAMBAH
-</button>
-
+    <button type="submit" name="tambah" class="tombol-tambah btn-kecil">
+        TAMBAH
+    </button>
 </div>
 
-
+<!-- UBAH -->
 <div class="baris-form" style="grid-template-columns:120px 500px 120px">
+    <label>TMT</label>
 
-<label>TMT</label>
+    <input type="date" name="tmt_jabatan">
 
-<input type="date" name="tmt_jabatan">
-
-<div class="aksi-vertikal">
-
-<button type="submit" name="ubah" class="tombol-ubah btn-kecil">
-UBAH
-</button>
-
-<button type="submit" name="hapus" class="tombol-hapus btn-kecil">
-HAPUS
-</button>
-
+    <button type="submit" name="ubah" class="tombol-ubah btn-kecil">
+        UBAH
+    </button>
 </div>
 
+<!-- HAPUS -->
+<div class="baris-form" style="grid-template-columns:120px 500px 120px">
+    <label>TMT Akhir</label>
+
+    <input type="date" name="tmt_akhir">
+
+    <button type="submit" name="hapus" class="tombol-hapus btn-kecil">
+        HAPUS
+    </button>
 </div>
 
 </form>
@@ -330,14 +276,15 @@ HAPUS
 <thead>
 <tr>
 <th>Nama Jabatan</th>
-<th>TMT</th>
+<th>TMT Mulai</th>
+<th>TMT Akhir</th>
 </tr>
 </thead>
 
 <tbody>
 
 <?php
-$data = mysqli_query($conn,"
+$dataRiwayat = mysqli_query($conn,"
 SELECT rj.*, mj.jenis_jabatan, mj.nama_jabatan
 FROM riwayat_jabatan rj
 JOIN master_jabatan mj ON rj.id_jabatan = mj.id_jabatan
@@ -345,13 +292,25 @@ WHERE rj.nip='$nip'
 ORDER BY rj.tmt_jabatan DESC
 ");
 
-while($row = mysqli_fetch_assoc($data)){
+while($row = mysqli_fetch_assoc($dataRiwayat)){
 
-echo "<tr onclick=\"pilihData('".$row['id_riwayat_jabatan']."','".$row['id_jabatan']."','".$row['tmt_jabatan']."')\">
+echo "<tr onclick=\"pilihData(
+'".$row['id_riwayat_jabatan']."',
+'".$row['id_jabatan']."',
+'".$row['tmt_jabatan']."',
+'".$row['tmt_akhir']."'
+)\">
 
 <td>".$row['jenis_jabatan']." - ".$row['nama_jabatan']."</td>
 
 <td>".date('d-m-Y',strtotime($row['tmt_jabatan']))."</td>
+
+<td>".
+($row['tmt_akhir'] 
+    ? date('d-m-Y',strtotime($row['tmt_akhir'])) 
+    : '-'
+).
+"</td>
 
 </tr>";
 
@@ -364,15 +323,20 @@ echo "<tr onclick=\"pilihData('".$row['id_riwayat_jabatan']."','".$row['id_jabat
 </main>
 <script>
 
-function pilihData(id,id_jabatan,tmt_jabatan){
+function pilihData(id,id_jabatan,tmt_jabatan,tmt_akhir){
 
 document.getElementById("id_riwayat_jabatan").value = id;
 document.querySelector("select[name='id_jabatan']").value = id_jabatan;
 document.querySelector("input[name='tmt_jabatan']").value = tmt_jabatan;
+document.querySelector("input[name='tmt_akhir']").value = tmt_akhir;
 
 }
 
 </script>
+
+<script src="core-ui.js"></script>
+    <script src="datamaster.js"></script>
+    <script src="admin-ui.js"></script>
 
 </body>
 </html>

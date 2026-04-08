@@ -82,41 +82,7 @@ include 'koneksi.php';
       }
     </style>
 
-    <!-- SIDEBAR -->
-    <!-- <aside class="sidebar" id="sidebar">
-    <div class="logo">
-        <span>LOGO</span>
-        <button class="tombol-menu" id="tombolMenu">✕</button>
-    </div>
-
-    <hr class="garis-menu">
-
-    <a href="Identitas_User.html" class="item-menu">Profil</a>
-  
-    <hr class="garis-menu">
-
-    <div class="item-menu" id="menuEditData">
-        Edit Data
-        <span class="panah-menu" id="panahEditData">▼</span>
-    </div>
-
-    <div class="submenu" id="submenuEditData">
-        <a href="Edit_Identitas_User.html" class="item-submenu">Identitas</a>
-        <a href="Edit_Riwayat_Golongan_User.html" class="item-submenu">Riwayat Golongan</a>
-        <a href="Edit_Riwayat_Jabatan_User.html" class="item-submenu">Riwayat Jabatan</a>
-        <a href="Edit_Riwayat_Pendidikan_User.html" class="item-submenu">Riwayat Pendidikan</a>
-        <a href="Edit_Riwayat_Diklat_User.html" class="item-submenu">Riwayat Diklat</a>
-        <a href="Edit_Riwayat_Keluarga_User.html" class="item-submenu">Riwayat Keluarga</a>
-        <a href="Edit_Riwayat_Kehormatan_User.html" class="item-submenu">Riwayat Kehormatan</a>
-        <a href="Edit_Riwayat_SKP_User.html" class="item-submenu">Riwayat SKP</a>
-    </div>
-
-    <hr class="garis-menu">
-
-    <div class="item-menu aktif">Pengaturan Akun</div>
-
-    <hr class="garis-menu">
-</aside> -->
+    
 
     <aside class="sidebar" id="sidebar">
       <div class="logo">

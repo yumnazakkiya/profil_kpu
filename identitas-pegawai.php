@@ -50,6 +50,60 @@ $tmt_gol  = $_POST['tmt_golongan'];
 $jabatan = $_POST['id_jabatan'];
 $tmt_jab = $_POST['tmt_jabatan'];
 
+// UPLOAD FOTO
+$updateFoto = "";
+
+if (!empty($_FILES['foto']['name'])) {
+
+    $foto = $_FILES['foto']['name'];
+    $tmp  = $_FILES['foto']['tmp_name'];
+    $size = $_FILES['foto']['size'];
+
+    $ext = strtolower(pathinfo($foto, PATHINFO_EXTENSION));
+
+    // VALIDASI EXT
+    if ($ext != "jpg" && $ext != "jpeg") {
+        echo "<script>
+        alert('Foto harus JPG/JPEG');
+        window.history.back();
+        </script>";
+        exit;
+    }
+
+    // VALIDASI MIME
+    $mime = mime_content_type($tmp);
+    if(!in_array($mime, ['image/jpeg'])){
+        echo "<script>
+        alert('File harus JPG');
+        window.history.back();
+        </script>";
+        exit;
+    }
+
+    // VALIDASI SIZE
+    if ($size > 2000000)  {
+        echo "<script>
+        alert('Ukuran maksimal 2MB');
+        window.history.back();
+        </script>";
+        exit;
+    }
+
+    $namaBaru = uniqid() . "." . $ext;
+    $path = __DIR__ . "/uploads/" . $namaBaru;
+
+    // WAJIB CEK BERHASIL
+    if(move_uploaded_file($tmp, $path)){
+        $updateFoto = ", foto='uploads/$namaBaru'";
+    } else {
+        echo "<script>
+        alert('Upload gagal');
+        window.history.back();
+        </script>";
+        exit;
+    }
+}
+
 mysqli_query($conn,"
 UPDATE pegawai SET
 nama_pegawai='$nama',
@@ -65,22 +119,11 @@ id_unit_kerja='$unit',
 id_gol='$golongan',
 tempat_lahir='$tempat_lahir',
 tanggal_lahir='$tanggal_lahir'
+$updateFoto
 WHERE nip='$nip'
 ");
 
-if(!empty($jabatan) && !empty($tmt_jab)){
-    mysqli_query($conn,"
-    INSERT INTO riwayat_jabatan (nip, id_jabatan, tmt_jabatan, id_unit_kerja)
-    VALUES ('$nip','$jabatan','$tmt_jab','$unit')
-    ");
-}
 
-if(!empty($golongan) && !empty($tmt_gol)){
-    mysqli_query($conn,"
-    INSERT INTO riwayat_golongan (nip, id_gol, tmt_golongan)
-    VALUES ('$nip','$golongan','$tmt_gol')
-    ");
-}
 
 echo "<script>
 alert('Data berhasil diubah');
@@ -130,6 +173,9 @@ ON pegawai.id_gol = master_golongan.id_gol
 WHERE pegawai.nip='$nip'
 ");
 $data = mysqli_fetch_array($query);
+if(!$data){
+    die("Data pegawai tidak ditemukan");
+}
 $jk = mysqli_query($conn,"SELECT * FROM master_jenis_kelamin");
 $agama = mysqli_query($conn,"SELECT * FROM master_agama");
 $status = mysqli_query($conn,"SELECT * FROM master_status_perkawinan");
@@ -144,6 +190,38 @@ $kabupaten = mysqli_query($conn,"SELECT * FROM master_kabupaten ORDER BY nama_ka
     <meta charset="UTF-8" />
     <title>Identitas Pegawai</title>
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="edit_identitas.css" />
+    <style>
+      /* .foto-preview {
+        width: 160px;
+    height: 200px;
+    background: #d9d9d9;
+    margin-bottom: 10px;
+    border: 2px solid #999;
+      }
+      .tombol-unggah {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 6px 12px;
+        background-color: #007bff;
+        color: #fff;
+        border-radius: 4px;
+        cursor: pointer;
+        text-align: center;
+      }
+      .tombol-unggah:hover {
+        background-color: #0056b3;
+      }
+
+      .kotak-foto {
+  width: 180px;
+  display: flex;              
+  flex-direction: column;     
+  align-items: center;        
+} */
+
+      
+    </style>
 
   </head>
   <body class="role-admin">
@@ -194,7 +272,7 @@ $kabupaten = mysqli_query($conn,"SELECT * FROM master_kabupaten ORDER BY nama_ka
           >Hubungan Keluarga</a
         >
         <a href="Admin_DM_Golongan.php" class="item-submenu">Golongan</a>
-        <a href="Admin_DM_Jabatan." class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_Jabatan.php" class="item-submenu">Jabatan</a>
         <a href="Admin_DM_UnitKerja.php" class="item-submenu"
           >Unit Kerja / Divisi</a
         >
@@ -204,6 +282,7 @@ $kabupaten = mysqli_query($conn,"SELECT * FROM master_kabupaten ORDER BY nama_ka
         <a href="Admin_DM_PredikatSKP.php" class="item-submenu"
           >Predikat SKP</a
         >
+        <a href="Admin_DM_KabupatenKota.php" class="item-submenu">Kabupaten/Kota</a>
       </div>
 
       <hr class="garis-menu" />
@@ -218,7 +297,7 @@ $kabupaten = mysqli_query($conn,"SELECT * FROM master_kabupaten ORDER BY nama_ka
 
     <main class="konten">
     
-
+    <h2>Riwayat Diklat</h2>
 
     <!-- <button class="tombol-keluar">Log Out</button> -->
       <div class="user-profile" id="userProfile">
@@ -237,25 +316,36 @@ $kabupaten = mysqli_query($conn,"SELECT * FROM master_kabupaten ORDER BY nama_ka
       </div>
     
       <div class="tab-menu">
-    <a href="identitas-pegawai.php" class="tab aktif">Identitas</a>
+    <a href="identitas-pegawai.php?nip=<?= $nip ?>" class="tab aktif">Identitas</a>
     <!-- <a href="Admin_Edit_Riwayat_Golongan.php" class="tab">Riwayat Golongan</a> -->
-     <a href="Admin_Edit_Riwayat_Golongan.php?nip=<?= $data['nip']; ?>" class="tab">Riwayat Golongan</a>  
-    <a href="Admin_Edit_Riwayat_Jabatan.php" class="tab">Riwayat Jabatan</a>
-    <a href="Admin_Edit_Riwayat_Pendidikan.php" class="tab">Riwayat Pendidikan</a>
-    <a href="Admin_Edit_Riwayat_Diklat.php" class="tab">Riwayat Diklat</a>
-    <a href="Admin_Edit_Riwayat_Keluarga.php" class="tab">Riwayat Keluarga</a>
-    <a href="Admin_Edit_Riwayat_Kehormatan.php" class="tab">Riwayat Kehormatan</a>
-    <a href="Admin_Edit_Riwayat_SKP.php" class="tab">Riwayat SKP</a>
+    <a href="Admin_Edit_Riwayat_Golongan.php?nip=<?= $nip ?>" class="tab">Riwayat Golongan</a>  
+    <a href="Admin_Edit_Riwayat_Jabatan.php?nip=<?= $nip ?>" class="tab">Riwayat Jabatan</a>
+    <a href="Admin_Edit_Riwayat_Pendidikan.php?nip=<?= $nip ?>" class="tab">Riwayat Pendidikan</a>
+    <a href="Admin_Edit_Riwayat_Diklat.php?nip=<?= $nip ?>" class="tab">Riwayat Diklat</a>
+    <a href="Admin_Edit_Riwayat_Keluarga.php?nip=<?= $nip ?>" class="tab">Riwayat Keluarga</a>
+    <a href="Admin_Edit_Riwayat_Kehormatan.php?nip=<?= $nip ?>" class="tab">Riwayat Kehormatan</a>
+    <a href="Admin_Edit_Riwayat_SKP.php?nip=<?= $nip ?>" class="tab">Riwayat SKP</a>
 </div>
 
-<form method="POST">
+<form method="POST" enctype="multipart/form-data">
       <!-- FORM IDENTITAS -->
       <section class="form-identitas">
       
-        <div class="kotak-foto">
-            <div class="pratinjau-foto"></div>
-            <button class="tombol-unggah">UNGGAH FOTO</button>
-        </div>
+        
+<div class="kotak-foto">
+
+    <div class="pratinjau-foto">
+        <img id="preview" class="foto-preview"
+             src="<?= isset($data['foto']) ? $data['foto'] : 'uploads/default.png' ?>">
+    </div>
+
+    <label class="tombol-unggah">
+        Unggah Foto
+        <input type="file" name="foto" accept="image/jpeg"
+               onchange="previewImage(event)" hidden>
+    </label>
+
+</div>
 
               <div class="form">
             <div class="baris-form">
@@ -428,6 +518,16 @@ placeholder="Contoh: PNS, CPNS, PPPK, dll">
     </main>
 
     <!-- <script src="script.js"></script> -->
+
+    <script>
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        document.getElementById('preview').src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+    </script>
 
     <script src="core-ui.js"></script>
     <script src="datamaster.js"></script>

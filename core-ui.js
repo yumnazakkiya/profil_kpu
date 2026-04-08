@@ -53,23 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // ===============================
-    // CHECK ALL TABLE
-    // ===============================
-
-    // const checkAll = document.getElementById("checkAll");
-
-    // if (checkAll) {
-    //     checkAll.addEventListener("change", function () {
-
-    //         const checkboxes = document.querySelectorAll(".row-checkbox");
-
-    //         checkboxes.forEach(function (cb) {
-    //             cb.checked = checkAll.checked;
-    //         });
-
-    //     });
-    // }
+   
 
     // ===============================
     // DROPDOWN USER PROFILE

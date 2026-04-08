@@ -2,12 +2,23 @@
 session_start();
 include "koneksi.php";
 
-$nip = $_GET['nip'] ?? '';
+$nip = $_POST['nip'] ?? $_GET['nip'] ?? '';
+
+if(empty($nip)){
+    die("NIP tidak ditemukan");
+}
 
 $query = mysqli_query($conn,"SELECT * FROM pegawai WHERE nip='$nip'");
-$data = mysqli_fetch_assoc($query);
+$pegawai = mysqli_fetch_assoc($query);
 
-/* TAMBAH RIWAYAT DIKLAT */
+if(!$pegawai){
+    die("Data pegawai tidak ditemukan");
+}
+
+
+/* =========================
+   TAMBAH
+   ========================= */
 if(isset($_POST['tambah'])){
 
 $id_jenis_diklat = $_POST['id_jenis_diklat'];
@@ -28,37 +39,40 @@ if(mysqli_num_rows($cek)==0){
 
 mysqli_query($conn,"
 INSERT INTO riwayat_diklat
-(
-nip,
-id_jenis_diklat,
-nama_diklat,
-tahun
-)
+(nip,id_jenis_diklat,nama_diklat,tahun)
 VALUES
-(
-'$nip',
-'$id_jenis_diklat',
-'$nama_diklat',
-'$tahun'
-)
+('$nip','$id_jenis_diklat','$nama_diklat','$tahun')
 ");
 
 header("Location: Admin_Edit_Riwayat_Diklat.php?nip=$nip");
 exit;
+
+}else{
+echo "<script>alert('Data sudah ada');</script>";
 }
+
+}else{
+echo "<script>alert('Lengkapi data terlebih dahulu');</script>";
 }
 }
 
 
-/* UBAH RIWAYAT DIKLAT */
+/* =========================
+   UBAH
+   ========================= */
 if(isset($_POST['ubah'])){
 
 $id = $_POST['id_riwayat_diklat'];
+
+if(empty($id)){
+die("Pilih data dulu");
+}
+
 $id_jenis_diklat = $_POST['id_jenis_diklat'];
 $nama_diklat = $_POST['nama_diklat'];
 $tahun = $_POST['tahun'];
 
-if(!empty($id) && !empty($id_jenis_diklat) && !empty($nama_diklat) && !empty($tahun)){
+if(!empty($id_jenis_diklat) && !empty($nama_diklat) && !empty($tahun)){
 
 mysqli_query($conn,"
 UPDATE riwayat_diklat
@@ -71,13 +85,23 @@ WHERE id_riwayat_diklat='$id'
 
 header("Location: Admin_Edit_Riwayat_Diklat.php?nip=$nip");
 exit;
+
+}else{
+echo "<script>alert('Lengkapi data terlebih dahulu');</script>";
 }
 }
 
-/* HAPUS */
+
+/* =========================
+   HAPUS
+   ========================= */
 if(isset($_POST['hapus'])){
 
 $id = $_POST['id_riwayat_diklat'];
+
+if(empty($id)){
+die("Pilih data dulu");
+}
 
 mysqli_query($conn,"
 DELETE FROM riwayat_diklat
@@ -94,69 +118,8 @@ exit;
 <meta charset="UTF-8">
 <title>Edit Data – Riwayat Diklat</title>
 <link rel="stylesheet" href="style.css" />
-<style>
-.sidebar-edit {
-width: 179px;
-background: linear-gradient(to bottom, #8b0000, #3b0000);
-color: #fff;
-padding: 20px 15px;
-min-height: 100vh;
-}
+<link rel="stylesheet" href="edit_riwayat.css" />
 
-.form-edit {
-max-width: 1000px;
-margin-top: 30px;
-}
-
-.sidebar-edit {
-color: white;
-}
-
-.sidebar-edit .item-menu {
-display: block;
-padding: 8px 5px;
-font-weight: bold;
-text-align: center;
-cursor: pointer;
-color: #fff !important;
-text-decoration: none;
-}
-
-.bagian-identitas {
-display: flex;
-align-items: flex-start;
-gap: 60px;
-margin-top: 60px;
-}
-
-.sidebar-edit .item-menu:visited {
-color: #fff !important;
-text-decoration: none;
-}
-
-.sidebar-edit .item-menu.aktif {
-text-decoration: underline;
-}
-
-.tabel-riwayat tr{
-cursor:pointer;
-}
-
-.tabel-riwayat tr:hover{
-background:#f1f1f1;
-}
-
-.tabel-riwayat{
-width:750px;
-margin-top:30px;
-}
-
-.bagian-identitas{
-display:flex;
-justify-content:center;
-margin-top: 20px;
-}
-</style>
 </head>
 
 <body class="role-admin">
@@ -225,7 +188,7 @@ Manajemen Akun
 <div class="user-info">
 <div class="user-icon">👤</div>
 <div class="user-text">
-<div class="user-name"><?= $data['nama_pegawai'] ?></div>
+<div class="user-name">TU SEKRETARIS KPU</div>
 </div>
 </div>
 
@@ -238,22 +201,22 @@ Manajemen Akun
 
 <div class="tab-menu">
 
-<a href="identitas-pegawai.php" class="tab">Identitas</a>
-<a href="Admin_Edit_Riwayat_Golongan.php" class="tab">Riwayat Golongan</a>
-<a href="Admin_Edit_Riwayat_Jabatan.php" class="tab">Riwayat Jabatan</a>
-<a href="Admin_Edit_Riwayat_Pendidikan.php" class="tab">Riwayat Pendidikan</a>
-<a href="Admin_Edit_Riwayat_Diklat.php" class="tab aktif">Riwayat Diklat</a>
-<a href="Admin_Edit_Riwayat_Keluarga.php" class="tab">Riwayat Keluarga</a>
-<a href="Admin_Edit_Riwayat_Kehormatan.php" class="tab">Riwayat Kehormatan</a>
-<a href="Admin_Edit_Riwayat_SKP.php" class="tab">Riwayat SKP</a>
+<a href="identitas-pegawai.php?nip=<?= $nip ?>" class="tab">Identitas</a>
+<a href="Admin_Edit_Riwayat_Golongan.php?nip=<?= $nip ?>" class="tab">Riwayat Golongan</a>
+<a href="Admin_Edit_Riwayat_Jabatan.php?nip=<?= $nip ?>" class="tab">Riwayat Jabatan</a>
+<a href="Admin_Edit_Riwayat_Pendidikan.php?nip=<?= $nip ?>" class="tab">Riwayat Pendidikan</a>
+<a href="Admin_Edit_Riwayat_Diklat.php?nip=<?= $nip ?>" class="tab aktif">Riwayat Diklat</a>
+<a href="Admin_Edit_Riwayat_Keluarga.php?nip=<?= $nip ?>" class="tab">Riwayat Keluarga</a>
+<a href="Admin_Edit_Riwayat_Kehormatan.php?nip=<?= $nip ?>" class="tab">Riwayat Kehormatan</a>
+<a href="Admin_Edit_Riwayat_SKP.php?nip=<?= $nip ?>" class="tab">Riwayat SKP</a>
 
 </div>
 
 <div class="bagian-identitas">
 
 <div class="form-edit">
-
 <form method="POST">
+<input type="hidden" name="nip" value="<?= $nip ?>">
 
 <input type="hidden" name="id_riwayat_diklat" id="id_riwayat_diklat">
 
@@ -325,7 +288,7 @@ HAPUS
 <tbody>
 
 <?php
-$data = mysqli_query($conn,"
+$dataRiwayat = mysqli_query($conn,"
 SELECT rd.*, md.jenis_diklat
 FROM riwayat_diklat rd
 JOIN master_diklat md
@@ -334,7 +297,7 @@ WHERE rd.nip='$nip'
 ORDER BY rd.tahun DESC
 ");
 
-while($row = mysqli_fetch_assoc($data)){
+while($row = mysqli_fetch_assoc($dataRiwayat)){
 
 echo "<tr onclick=\"pilihData('".$row['id_riwayat_diklat']."','".$row['id_jenis_diklat']."','".$row['nama_diklat']."','".$row['tahun']."')\">
 
@@ -371,6 +334,10 @@ document.querySelector("input[name='tahun']").value = tahun;
 }
 
 </script>
+
+<script src="core-ui.js"></script>
+    <script src="datamaster.js"></script>
+    <script src="admin-ui.js"></script>
 
 </body>
 </html>

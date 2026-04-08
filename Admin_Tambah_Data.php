@@ -3,8 +3,16 @@ include 'koneksi.php';
 
 if(isset($_POST['tambah'])) {
 
-    $nama = $_POST['nama'];
-    $nip = $_POST['nip'];
+    // =========================
+    // AMBIL DATA
+    // =========================
+    $nama = $_POST['nama'] ?? '';
+$nip = $_POST['nip'] ?? '';
+
+if(empty($nama) || empty($nip)){
+    echo "<script>alert('Nama dan NIP wajib diisi');</script>";
+    exit;
+}
     $alamat = $_POST['alamat'];
     $no_telp = $_POST['no_telp'];
     $tmt_cpns = $_POST['tmt_cpns'];
@@ -17,7 +25,7 @@ if(isset($_POST['tambah'])) {
     $tempat_lahir = $_POST['tempat_lahir'];
     $tanggal_lahir = $_POST['tanggal_lahir'];
     $tipe_karyawan = $_POST['tipe_karyawan'];
-    $instansi = $_POST['instansi'];
+    $instansi = "KPU Kota Surabaya";
 
     $tahun_skp = $_POST['tahun_skp'];
     $rerata_nilai = $_POST['rerata_nilai'];
@@ -36,76 +44,177 @@ if(isset($_POST['tambah'])) {
 
     $nama_keluarga = $_POST['nama_keluarga'];
     $id_hub_kel = $_POST['id_hub_kel'];
-    $no_telp = $_POST['no_telp'];
-    $alamat = $_POST['alamat'];
+    $no_telp_keluarga = $_POST['no_telp_keluarga'];
+    $alamat_keluarga = $_POST['alamat_keluarga'];
 
     $id_jabatan = $_POST['id_jabatan'];
     $tmt_jabatan = $_POST['tmt_jabatan'];
+    $tmt_akhir = $_POST['tmt_akhir'] ?? null;
 
     $tmt_golongan = $_POST['tmt_golongan'];
-      
-   /* INSERT PEGAWAI */
 
-mysqli_query($conn,"INSERT INTO pegawai
-(nip,nama_pegawai,tempat_lahir,tanggal_lahir,alamat,no_telp,tmt_cpns,tmt_pns,tipe_karyawan,instansi,id_agama,id_unit_kerja,id_gol,id_jenis_kelamin,id_status_perkawinan)
-VALUES
-('$nip','$nama','$tempat_lahir','$tanggal_lahir','$alamat','$no_telp','$tmt_cpns','$tmt_pns','$tipe_karyawan','$institusi','$id_agama','$id_unit_kerja','$id_gol','$id_jenis_kelamin','$id_status_perkawinan')");
+    // =========================
+    // VALIDASI NIP
+    // =========================
+    $cek = mysqli_query($conn,"SELECT * FROM pegawai WHERE nip='$nip'");
+    if(mysqli_num_rows($cek)>0){
+        echo "<script>alert('NIP sudah terdaftar');</script>";
+        exit;
+    }
 
-/* INSERT RIWAYAT SKP */
+// =========================
+// UPLOAD FOTO
+// =========================
+$fotoPath = "uploads/default.png";
 
-mysqli_query($conn,"INSERT INTO riwayat_skp
-(nip,id_predikat_skp,rerata_nilai,tahun)
-VALUES
-('$nip','$id_predikat_skp','$rerata_nilai','$tahun_skp')");
+if (!empty($_FILES['foto']['name'])) {
 
-/* INSERT RIWAYAT PENDIDIKAN */
+    $foto = $_FILES['foto']['name'];
+    $tmp  = $_FILES['foto']['tmp_name'];
+    $size = $_FILES['foto']['size'];
 
-mysqli_query($conn,"INSERT INTO riwayat_pendidikan
-(nip,id_jenjang_pend,institusi,tahun_lulus)
-VALUES
-('$nip','$id_jenjang_pend','$institusi','$tahun_lulus')");
+    $ext = strtolower(pathinfo($foto, PATHINFO_EXTENSION));
 
-/* INSERT RIWAYAT DIKLAT */
+    // VALIDASI EXT
+    if ($ext != "jpg" && $ext != "jpeg") {
+        echo "<script>
+        alert('Foto harus JPG/JPEG');
+        window.history.back();
+        </script>";
+        exit;
+    }
 
-mysqli_query($conn,"INSERT INTO riwayat_diklat
-(nip,id_jenis_diklat,nama_diklat,tahun)
-VALUES
-('$nip','$id_jenis_diklat','$nama_diklat','$tahun_diklat')");
+    // VALIDASI MIME
+    $mime = mime_content_type($tmp);
+    if(!in_array($mime, ['image/jpeg'])){
+        echo "<script>
+        alert('File harus JPG');
+        window.history.back();
+        </script>";
+        exit;
+    }
 
-/* INSERT RIWAYAT KEHORMATAN */
+    // VALIDASI SIZE
+    if ($size > 2000000) {
+        echo "<script>
+        alert('Maksimal 2MB');
+        window.history.back();
+        </script>";
+        exit;
+    }
 
-mysqli_query($conn,"INSERT INTO riwayat_kehormatan
-(nip,nama_penghargaan,tahun)
-VALUES
-('$nip','$nama_penghargaan','$tahun_penghargaan')");
+    $namaBaru = uniqid() . "." . $ext;
+    $path = __DIR__ . "/uploads/" . $namaBaru;
 
-/* INSERT RIWAYAT KELUARGA */
-if(!empty($nama_keluarga)){
-mysqli_query($conn,"INSERT INTO riwayat_keluarga
-(nip,nama_keluarga,id_hub_kel,no_telp,alamat)
-VALUES
-('$nip','$nama_keluarga','$id_hub_kel', '$no_telp','$alamat')");
+    if(move_uploaded_file($tmp, $path)){
+        $fotoPath = "uploads/" . $namaBaru;
+    } else {
+        echo "<script>
+        alert('Upload gagal');
+        window.history.back();
+        </script>";
+        exit;
+    }
 }
 
-/* INSERT RIWAYAT JABATAN */
+    // =========================
+    // INSERT PEGAWAI
+    // =========================
+    mysqli_query($conn,"INSERT INTO pegawai
+    (nip,nama_pegawai,tempat_lahir,tanggal_lahir,alamat,no_telp,tmt_cpns,tmt_pns,tipe_karyawan,instansi,id_agama,id_unit_kerja,id_gol,id_jenis_kelamin,id_status_perkawinan,foto)
+    VALUES
+    ('$nip','$nama','$tempat_lahir','$tanggal_lahir','$alamat','$no_telp','$tmt_cpns','$tmt_pns','$tipe_karyawan','$instansi','$id_agama','$id_unit_kerja','$id_gol','$id_jenis_kelamin','$id_status_perkawinan','$fotoPath')");
 
-mysqli_query($conn,"INSERT INTO riwayat_jabatan
-(nip,id_jabatan,id_unit_kerja,tmt_jabatan)
-VALUES
-('$nip','$id_jabatan','$id_unit_kerja','$tmt_jabatan')");
+    // =========================
+    // RIWAYAT SKP
+    // =========================
+    if(!empty($tahun_skp) && !empty($rerata_nilai)){
+        mysqli_query($conn,"INSERT INTO riwayat_skp
+        (nip,id_predikat_skp,rerata_nilai,tahun)
+        VALUES
+        ('$nip','$id_predikat_skp','$rerata_nilai','$tahun_skp')");
+    }
 
-/* INSERT RIWAYAT GOLONGAN */
+    // =========================
+    // RIWAYAT PENDIDIKAN
+    // =========================
+    if(!empty($id_jenjang_pend)){
+        mysqli_query($conn,"INSERT INTO riwayat_pendidikan
+        (nip,id_jenjang_pend,institusi,tahun_lulus)
+        VALUES
+        ('$nip','$id_jenjang_pend','$institusi','$tahun_lulus')");
+    }
 
-mysqli_query($conn,"INSERT INTO riwayat_golongan
-(nip,id_gol,tmt_golongan)
-VALUES
-('$nip','$id_gol','$tmt_golongan')");
+    // =========================
+    // RIWAYAT DIKLAT
+    // =========================
+    if(!empty($id_jenis_diklat)){
+        mysqli_query($conn,"INSERT INTO riwayat_diklat
+        (nip,id_jenis_diklat,nama_diklat,tahun)
+        VALUES
+        ('$nip','$id_jenis_diklat','$nama_diklat','$tahun_diklat')");
+    }
+
+    // =========================
+    // RIWAYAT KEHORMATAN
+    // =========================
+    if(!empty($nama_penghargaan)){
+        mysqli_query($conn,"INSERT INTO riwayat_kehormatan
+        (nip,nama_penghargaan,tahun)
+        VALUES
+        ('$nip','$nama_penghargaan','$tahun_penghargaan')");
+    }
+
+    // =========================
+    // RIWAYAT KELUARGA
+    // =========================
+    if(!empty($nama_keluarga)){
+        mysqli_query($conn,"INSERT INTO riwayat_keluarga
+        (nip,nama_keluarga,id_hub_kel,no_telp,alamat)
+        VALUES
+        ('$nip','$nama_keluarga','$id_hub_kel','$no_telp_keluarga','$alamat_keluarga')");
+    }
+
+    // =========================
+    // RIWAYAT JABATAN
+    // =========================
+    if(!empty($id_jabatan) && !empty($tmt_jabatan)){
+        mysqli_query($conn,"INSERT INTO riwayat_jabatan
+        (nip,id_jabatan,id_unit_kerja,tmt_jabatan,tmt_akhir)
+        VALUES
+        ('$nip','$id_jabatan','$id_unit_kerja','$tmt_jabatan','$tmt_akhir')");
+    }
+
+    // =========================
+    // RIWAYAT GOLONGAN
+    // =========================
+    if(!empty($id_gol) && !empty($tmt_golongan)){
+        mysqli_query($conn,"INSERT INTO riwayat_golongan
+        (nip,id_gol,tmt_golongan)
+        VALUES
+        ('$nip','$id_gol','$tmt_golongan')");
+    }
 
     echo "<script>
-alert('Data berhasil ditambahkan');
-window.location='Admin_Profil_Data_Pegawai.php';
-</script>";
+    alert('Data berhasil ditambahkan');
+    window.location='Admin_Profil_Data_Pegawai.php';
+    </script>";
 }
+
+// =========================
+// DATAMASTER (SAMAKAN DENGAN EDIT)
+// =========================
+$jk = mysqli_query($conn,"SELECT * FROM master_jenis_kelamin");
+$agama = mysqli_query($conn,"SELECT * FROM master_agama");
+$status = mysqli_query($conn,"SELECT * FROM master_status_perkawinan");
+$unit = mysqli_query($conn,"SELECT * FROM master_divisi");
+$golongan = mysqli_query($conn,"SELECT * FROM master_golongan");
+$jabatan = mysqli_query($conn,"SELECT * FROM master_jabatan");
+$kabupaten = mysqli_query($conn,"SELECT * FROM master_kabupaten ORDER BY nama_kabupaten ASC");
+$pend = mysqli_query($conn,"SELECT * FROM master_jenjang_pend");
+$diklat = mysqli_query($conn,"SELECT * FROM master_diklat");
+$hub = mysqli_query($conn,"SELECT * FROM master_hub_kel");
+$predikat = mysqli_query($conn,"SELECT * FROM master_predikat_skp");
 ?>
 <!DOCTYPE html>
 <html lang="id">
@@ -113,66 +222,14 @@ window.location='Admin_Profil_Data_Pegawai.php';
     <meta charset="UTF-8">
     <title>Manage Jenis Kelamin</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="tambah_data.css">
     <style>
        
 
- /* NEW PROFIL */
-      /* USER PROFILE */
-      .user-profile {
-        position: absolute;
-        top: 20px;
-        right: 40px;
-        cursor: pointer;
-      }
 
-      .user-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        background: #f2f2f2;
-        padding: 10px 15px;
-        border-radius: 15px;
-      }
 
-      .user-icon {
-        font-size: 24px;
-      }
-
-      .user-name {
-        font-weight: bold;
-        font-size: 14px;
-      }
 
       
-      /* DROPDOWN */
-      .dropdown-menu {
-        display: none;
-        position: absolute;
-        top: 60px;
-        right: 0;
-        background: #f2f2f2;
-        border-radius: 15px;
-        padding: 15px 20px;
-        width: 200px;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
-      }
-
-      .dropdown-menu a {
-        display: block;
-        text-decoration: none;
-        color: #2c3e50;
-        font-weight: 600;
-        margin-bottom: 15px;
-      }
-
-      .dropdown-menu a:last-child {
-        margin-bottom: 0;
-      }
-
-      /* TAMPIL SAAT AKTIF */
-      .user-profile.active .dropdown-menu {
-        display: block;
-      }
 
 
     </style>
@@ -212,32 +269,32 @@ window.location='Admin_Profil_Data_Pegawai.php';
       </div>
 
       <div class="submenu" id="submenuDataMaster">
-        <a href="Admin_DM_Gender.html" class="item-submenu">Jenis Kelamin</a>
-        <a href="Admin_DM_Agama.html" class="item-submenu">Agama</a>
-        <a href="Admin_DM_StatusPerkawinan.html" class="item-submenu"
+        <a href="Admin_DM_Gender.php" class="item-submenu">Jenis Kelamin</a>
+        <a href="Admin_DM_Agama.php" class="item-submenu">Agama</a>
+        <a href="Admin_DM_StatusPerkawinan.php" class="item-submenu"
           >Status Perkawinan</a
         >
-        <a href="Admin_DM_JenjangPendidikan.html" class="item-submenu"
+        <a href="Admin_DM_JenjangPendidikan.php" class="item-submenu"
           >Jenjang Pendidikan</a
         >
-        <a href="Admin_DM_HubunganKeluarga.html" class="item-submenu"
+        <a href="Admin_DM_HubunganKeluarga.php" class="item-submenu"
           >Hubungan Keluarga</a
         >
-        <a href="Admin_DM_Golongan.html" class="item-submenu">Golongan</a>
-        <a href="Admin_DM_Jabatan.html" class="item-submenu">Jabatan</a>
-        <a href="Admin_DM_UnitKerja.html" class="item-submenu"
+        <a href="Admin_DM_Golongan.php" class="item-submenu">Golongan</a>
+        <a href="Admin_DM_Jabatan.php" class="item-submenu">Jabatan</a>
+        <a href="Admin_DM_UnitKerja.php" class="item-submenu"
           >Unit Kerja / Divisi</a
         >
-        <a href="Admin_DM_JenisDiklat.html" class="item-submenu"
+        <a href="Admin_DM_JenisDiklat.php" class="item-submenu"
           >Jenis Diklat</a
         >
-        <a href="Admin_DM_PredikatSKP.html" class="item-submenu"
+        <a href="Admin_DM_PredikatSKP.php" class="item-submenu"
           >Predikat SKP</a
         >
       </div>
 
       <hr class="garis-menu" />
-      <a href="Admin_Manajemen_Akun.html" class="item-menu">
+      <a href="Admin_Manajemen_Akun.php" class="item-menu">
         Manajemen Akun
     </a>
 
@@ -261,20 +318,29 @@ window.location='Admin_Profil_Data_Pegawai.php';
         </div>
 
         <div class="dropdown-menu">
-            <a href="Admin_Profil_Data_Pegawai.html">Beranda</a>
+            <a href="Admin_Profil_Data_Pegawai.php">Beranda</a>
             <a href="#">Keluar</a>
         </div>
     </div>
 
     <!-- FORM TAMBAH DATA -->
-     <form method="POST">
+     <form method="POST" enctype="multipart/form-data">
 <div class="pembungkus-form">
 
         <!-- FOTO -->
         <div class="kotak-foto">
-            <div class="pratinjau-foto"></div>
-            <button class="tombol-unggah">UNGGAH FOTO</button>
-        </div>
+
+    <div class="pratinjau-foto">
+        <img id="preview" class="foto-preview">
+    </div>
+
+    <label class="tombol-unggah">
+        Unggah Foto
+        <input type="file" name="foto" accept="image/jpeg"
+               onchange="previewImage(event)" hidden>
+    </label>
+
+</div>
 
         <!-- FORM UTAMA -->
         <div class="form">
@@ -302,10 +368,25 @@ window.location='Admin_Profil_Data_Pegawai.php';
             </div>
 
             <div class="baris-form">
-                <label>Tempat & Tanggal Lahir</label>
-                <input type="text" name="tempat_lahir">
-                <input type="date" name="tanggal_lahir">
-            </div>
+<label>Tempat & Tanggal Lahir</label>
+
+<div style="display:flex; gap:10px;">
+
+<select name="tempat_lahir">
+<option value="">-- Pilih Kabupaten --</option>
+
+<?php while($row = mysqli_fetch_assoc($kabupaten)) { ?>
+<option value="<?= $row['nama_kabupaten']; ?>">
+<?= $row['nama_kabupaten']; ?>
+</option>
+<?php } ?>
+
+</select>
+
+<input type="date" name="tanggal_lahir" value="">
+
+</div>
+</div>
 
             <div class="baris-form">
                 <label>Jenis Kelamin</label>
@@ -316,15 +397,10 @@ window.location='Admin_Profil_Data_Pegawai.php';
 
 <option value="">-- Pilih Jenis Kelamin --</option>
 
-<?php
-$jk = mysqli_query($conn,"SELECT * FROM master_jenis_kelamin");
-while($j = mysqli_fetch_assoc($jk)){
-?>
-
+<?php while($j = mysqli_fetch_assoc($jk)){ ?>
 <option value="<?= $j['id_jenis_kelamin']; ?>">
 <?= $j['jenis_kelamin']; ?>
 </option>
-
 <?php } ?>
 
 </select>
@@ -338,14 +414,11 @@ while($j = mysqli_fetch_assoc($jk)){
                 <select name="id_agama">
   <option value="">-- Pilih Agama --</option>
 
-  <?php
-  $agama = mysqli_query($conn, "SELECT * FROM master_agama");
-  while($a = mysqli_fetch_assoc($agama)) {
-  ?>
-    <option value="<?= $a['id_agama']; ?>">
-      <?= $a['agama']; ?>
-    </option>
-  <?php } ?>
+  <?php while($a = mysqli_fetch_assoc($agama)){ ?>
+<option value="<?= $a['id_agama']; ?>">
+<?= $a['agama']; ?>
+</option>
+<?php } ?>
 </select>
             </div>
 
@@ -359,7 +432,6 @@ while($j = mysqli_fetch_assoc($jk)){
 <option value="">-- Pilih Status --</option>
 
 <?php
-$status = mysqli_query($conn,"SELECT * FROM master_status_perkawinan");
 while($s = mysqli_fetch_assoc($status)){
 ?>
 
@@ -379,7 +451,6 @@ while($s = mysqli_fetch_assoc($status)){
   <option value="">-- Pilih Unit --</option>
 
   <?php
-  $unit = mysqli_query($conn, "SELECT * FROM master_divisi");
   while($u = mysqli_fetch_assoc($unit)) {
   ?>
     <option value="<?= $u['id_unit_kerja']; ?>">
@@ -390,9 +461,10 @@ while($s = mysqli_fetch_assoc($status)){
             </div>
 
             <div class="baris-form">
-                <label>Instansi</label>
-                <input type="text" name="instansi">
-            </div>
+   <label>Instansi</label>
+        <input type="text" value="KPU Kota Surabaya" readonly>
+        <input type="hidden" name="instansi" value="KPU Kota Surabaya">
+</div>
 
             <div class="baris-form">
                 <label>Tipe Karyawan</label>
@@ -427,14 +499,11 @@ while($s = mysqli_fetch_assoc($status)){
             <select name="id_gol">
              <option value="">-- Pilih Golongan --</option>
 
-            <?php
-            $gol = mysqli_query($conn, "SELECT * FROM master_golongan");
-            while($g = mysqli_fetch_assoc($gol)) {
-            ?>
-            <option value="<?= $g['id_gol']; ?>">
-            <?= $g['nama_pangkat']; ?> (<?= $g['kode_gol']; ?>)
-            </option>
-            <?php } ?>
+            <?php while($g = mysqli_fetch_assoc($golongan)){ ?>
+<option value="<?= $g['id_gol']; ?>">
+<?= $g['nama_pangkat']; ?> (<?= $g['kode_gol']; ?>)
+</option>
+<?php } ?>
 
             </select>
         </div>
@@ -460,7 +529,6 @@ while($s = mysqli_fetch_assoc($status)){
 <option value="">-- Pilih Jabatan --</option>
 
 <?php
-$jabatan = mysqli_query($conn,"SELECT * FROM master_jabatan");
 while($j = mysqli_fetch_assoc($jabatan)){
 ?>
 
@@ -476,9 +544,17 @@ while($j = mysqli_fetch_assoc($jabatan)){
 
 <div class="baris-form">
 
-<label>TMT</label>
+<label>TMT Awal</label>
 
 <input type="date" name="tmt_jabatan">
+
+</div>
+
+<div class="baris-form">
+
+<label>TMT Akhir</label>
+
+<input type="date" name="tmt_akhir">
 
 </div>
 
@@ -498,7 +574,6 @@ while($j = mysqli_fetch_assoc($jabatan)){
 <option value="">-- Pilih Jenjang --</option>
 
 <?php
-$pend = mysqli_query($conn,"SELECT * FROM master_jenjang_pend");
 while($p = mysqli_fetch_assoc($pend)){
 ?>
 
@@ -533,14 +608,13 @@ while($p = mysqli_fetch_assoc($pend)){
     <div class="form">
 
 <div class="baris-form">
-<label>Nama Diklat</label>
+<label>Jenis Diklat</label>
 
 <select name="id_jenis_diklat">
 
 <option value="">-- Pilih Diklat --</option>
 
 <?php
-$diklat = mysqli_query($conn,"SELECT * FROM master_diklat");
 while($d = mysqli_fetch_assoc($diklat)){
 ?>
 
@@ -584,7 +658,6 @@ while($d = mysqli_fetch_assoc($diklat)){
 <option value="">-- Pilih Hubungan --</option>
 
 <?php
-$hub = mysqli_query($conn,"SELECT * FROM master_hub_kel");
 while($h = mysqli_fetch_assoc($hub)){
 ?>
 
@@ -600,12 +673,12 @@ while($h = mysqli_fetch_assoc($hub)){
 
 <div class="baris-form">
 <label>No. Telepon</label>
-<input type="number" name="no_telp">
+<input type="text" name="no_telp_keluarga">
 </div>
 
 <div class="baris-form">
 <label>Alamat</label>
-<input type="text" name="alamat">
+<input type="text" name="alamat_keluarga">
 </div>
 
 </div>
@@ -650,7 +723,6 @@ while($h = mysqli_fetch_assoc($hub)){
 <option value="">-- Pilih Predikat --</option>
 
 <?php
-$predikat = mysqli_query($conn,"SELECT * FROM master_predikat_skp");
 while($p = mysqli_fetch_assoc($predikat)){
 ?>
 
@@ -673,6 +745,16 @@ while($p = mysqli_fetch_assoc($predikat)){
 </main>
 
 <!-- <script src="script.js"></script> -->
+  <script>
+    function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function(){
+        document.getElementById('preview').src = reader.result;
+    }
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+  </script>
  <script src="core-ui.js"></script>
   <script src="datamaster.js"></script>
   <script src="admin-ui.js"></script>

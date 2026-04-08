@@ -4,22 +4,25 @@ include "koneksi.php";
 
 $nip = $_POST['nip'] ?? $_GET['nip'] ?? '';
 
-$query = mysqli_query($conn,"SELECT * FROM pegawai WHERE nip='$nip'");
-$data = mysqli_fetch_assoc($query);
-
 if(empty($nip)){
     die("NIP tidak ditemukan");
+}
+
+$query = mysqli_query($conn,"SELECT * FROM pegawai WHERE nip='$nip'");
+$pegawai = mysqli_fetch_assoc($query);
+
+if(!$pegawai){
+    die("Data pegawai tidak ditemukan");
 }
 
 
 /* =========================
    TAMBAH RIWAYAT GOLONGAN
    ========================= */
-
-   if(isset($_POST['tambah'])){
+if(isset($_POST['tambah'])){
 
     $id_gol = $_POST['id_gol'];
-    $tmt_golongan    = $_POST['tmt_golongan'];
+    $tmt_golongan = $_POST['tmt_golongan'];
 
     if(!empty($id_gol) && !empty($tmt_golongan)){
 
@@ -34,69 +37,74 @@ if(empty($nip)){
 
             mysqli_query($conn,"
             INSERT INTO riwayat_golongan
-            (
-            nip,
-            id_gol,
-            tmt_golongan
-            )
+            (nip, id_gol, tmt_golongan)
             VALUES
-            (
-            '$nip',
-            '$id_gol',
-            '$tmt_golongan'
-            )
+            ('$nip','$id_gol','$tmt_golongan')
             ");
 
             header("Location: Admin_Edit_Riwayat_Golongan.php?nip=$nip");
             exit;
+
+        }else{
+            echo "<script>alert('Data sudah ada');</script>";
         }
+
+    }else{
+        echo "<script>alert('Lengkapi data terlebih dahulu');</script>";
     }
 }
+
+
 /* =========================
    UBAH RIWAYAT GOLONGAN
    ========================= */
+if(isset($_POST['ubah'])){
 
-   if(isset($_POST['ubah'])){
-
-    $id     = $_POST['id_riwayat_gol'];
+    $id = $_POST['id_riwayat_gol'];
     $id_gol = $_POST['id_gol'];
-    $tmt_golongan    = $_POST['tmt_golongan'];
+    $tmt_golongan = $_POST['tmt_golongan'];
 
     if(empty($id)){
         die("Pilih data dulu dari tabel");
     }
 
-    if(!empty($id) && !empty($id_gol) && !empty($tmt_golongan)){
+    if(!empty($id_gol) && !empty($tmt_golongan)){
 
         mysqli_query($conn,"
         UPDATE riwayat_golongan
-        SET
-        id_gol='$id_gol',
-        tmt_golongan='$tmt_golongan'
+        SET id_gol='$id_gol',
+            tmt_golongan='$tmt_golongan'
         WHERE id_riwayat_gol='$id'
         ");
 
         header("Location: Admin_Edit_Riwayat_Golongan.php?nip=$nip");
         exit;
+
+    }else{
+        echo "<script>alert('Lengkapi data terlebih dahulu');</script>";
     }
 }
+
+
+/* =========================
+   HAPUS RIWAYAT GOLONGAN
+   ========================= */
 if(isset($_POST['hapus'])){
 
-  $id = $_POST['id_riwayat_gol'];
+    $id = $_POST['id_riwayat_gol'];
 
-  if(empty($id)){
-    die("Pilih data dulu");
+    if(empty($id)){
+        die("Pilih data dulu");
+    }
+
+    mysqli_query($conn,"
+    DELETE FROM riwayat_golongan
+    WHERE id_riwayat_gol='$id'
+    ");
+
+    header("Location: Admin_Edit_Riwayat_Golongan.php?nip=$nip");
+    exit;
 }
-  
-  mysqli_query($conn,"
-  DELETE FROM riwayat_golongan
-  WHERE id_riwayat_gol='$id'
-  ");
-
-  header("Location: Admin_Edit_Riwayat_Golongan.php?nip=$nip");
-exit;
-  
-  }
 ?>
 
 <!DOCTYPE html>
@@ -105,74 +113,8 @@ exit;
 <meta charset="UTF-8">
 <title>Edit Data – Riwayat Golongan</title>
 <link rel="stylesheet" href="style.css" />
-<style>
-.sidebar-edit {
-    width: 179px;
-    background: linear-gradient(to bottom, #8b0000, #3b0000);
-    color: #fff;
-    padding: 20px 15px;
-    min-height: 100vh;
-}
+<link rel="stylesheet" href="edit_riwayat.css" />
 
-.form-edit {
-    max-width: 800px;
-    margin-top: 30px;
-    flex: 1;
-}
-
-/* Sidebar default putih */
-.sidebar-edit {
-    color: white;
-}
-
-/* Paksa menu jadi biru */
-.sidebar-edit .item-menu {
-    display: block;
-    padding: 8px 5px;
-    font-weight: bold;
-    text-align: center;
-    cursor: pointer;
-
-    color: #fff !important;   /* pakai ini kalau masih ketimpa */
-    text-decoration: none;
-}
-/* Wrapper foto + form */
-.bagian-identitas {
-    display: flex;
-    align-items: flex-start;
-    gap: 60px;
-    margin-top: 60px; /* supaya turun dari judul */
-}
-
-/* Hilangkan efek visited */
-.sidebar-edit .item-menu:visited {
-    color: #fff !important;
-    text-decoration: none;
-}
-
-/* Aktif pakai underline */
-.sidebar-edit .item-menu.aktif {
-    text-decoration: underline;
-}
-.tabel-riwayat tr{
-cursor:pointer;
-}
-
-.tabel-riwayat tr:hover{
-background:#f1f1f1;
-}
-
-.tabel-riwayat{
-width:750px;
-margin-top:30px;
-}
-
-.bagian-identitas{
-display:flex;
-justify-content:center;
-margin-top: 20px;
-}
-</style>
 </head>
 
 <body class="role-admin">
@@ -262,65 +204,63 @@ margin-top: 20px;
         </div>
       </div>
       <div class="tab-menu">
-    <a href="identitas-pegawai.php" class="tab">Identitas</a>
-    <a href="Admin_Edit_Riwayat_Golongan.php" class="tab aktif">Riwayat Golongan</a>
-    <a href="Admin_Edit_Riwayat_Jabatan.php" class="tab">Riwayat Jabatan</a>
-    <a href="Admin_Edit_Riwayat_Pendidikan.php" class="tab">Riwayat Pendidikan</a>
-    <a href="Admin_Edit_Riwayat_Diklat.php" class="tab">Riwayat Diklat</a>
-    <a href="Admin_Edit_Riwayat_Keluarga.php" class="tab">Riwayat Keluarga</a>
-    <a href="Admin_Edit_Riwayat_Kehormatan.php" class="tab">Riwayat Kehormatan</a>
-    <a href="Admin_Edit_Riwayat_SKP.php" class="tab">Riwayat SKP</a>
+    <a href="identitas-pegawai.php?nip=<?= $nip ?>" class="tab">Identitas</a>    <a href="Admin_Edit_Riwayat_Golongan.php?nip=<?= $nip ?>" class="tab aktif">Riwayat Golongan</a>
+    <a href="Admin_Edit_Riwayat_Jabatan.php?nip=<?= $nip ?>" class="tab">Riwayat Jabatan</a>
+    <a href="Admin_Edit_Riwayat_Pendidikan.php?nip=<?= $nip ?>" class="tab">Riwayat Pendidikan</a>
+    <a href="Admin_Edit_Riwayat_Diklat.php?nip=<?= $nip ?>" class="tab">Riwayat Diklat</a>
+    <a href="Admin_Edit_Riwayat_Keluarga.php?nip=<?= $nip ?>" class="tab">Riwayat Keluarga</a>
+    <a href="Admin_Edit_Riwayat_Kehormatan.php?nip=<?= $nip ?>" class="tab">Riwayat Kehormatan</a>
+    <a href="Admin_Edit_Riwayat_SKP.php?nip=<?= $nip?>" class="tab">Riwayat SKP</a>
 </div>
       <div class="bagian-identitas">
       <div class="form-edit">
         <form method="POST">
-        <input type="hidden" name="nip" value="<?= $nip ?>">
-        <input type="hidden" name="id_riwayat_gol" id="id_riwayat_gol">
-        <div class="baris-form" style="grid-template-columns:120px 500px 120px">
-        <label>Golongan Pangkat</label>
+<input type="hidden" name="nip" value="<?= $nip ?>">
+<input type="hidden" name="id_riwayat_gol" id="id_riwayat_gol">
 
-        <select name="id_gol" style="height:30px; border:1px solid #888;">
+<!-- TAMBAH -->
+<div class="baris-form" style="grid-template-columns:120px 500px 120px">
+    <label>Golongan Pangkat</label>
 
+    <select name="id_gol" style="height:30px; border:1px solid #888;">
         <option value="">Pilih Golongan</option>
 
         <?php
-
         $qGol = mysqli_query($conn,"SELECT * FROM master_golongan ORDER BY kode_gol");
 
         while($g = mysqli_fetch_assoc($qGol)){
-
-        echo "<option value='$g[id_gol]'>$g[kode_gol] - $g[nama_pangkat]</option>";
-
+            echo "<option value='$g[id_gol]'>$g[kode_gol] - $g[nama_pangkat]</option>";
         }
-
         ?>
+    </select>
 
-        </select>
-
-        <button type="submit" name="tambah" class="tombol-tambah btn-kecil">
+    <button type="submit" name="tambah" class="tombol-tambah btn-kecil">
         TAMBAH
-        </button>
-        </div>
+    </button>
+</div>
 
+<!-- UBAH -->
+<div class="baris-form" style="grid-template-columns:120px 500px 120px">
+    <label>TMT</label>
 
-        <div class="baris-form" style="grid-template-columns:120px 500px 120px">
+    <input type="date" name="tmt_golongan">
 
-        <label>TMT</label>
-
-        <input type="date" name="tmt_golongan">
-
-        <div class="aksi-vertikal">
-        <button type="submit" name="ubah" class="tombol-ubah btn-kecil">
+    <button type="submit" name="ubah" class="tombol-ubah btn-kecil">
         UBAH
-        </button>
-        <button type="submit" name="hapus" class="tombol-hapus btn-kecil">
-          HAPUS
-          </button>
-        </div>
+    </button>
+</div>
 
-        </div>
+<!-- HAPUS -->
+<div class="baris-form" style="grid-template-columns:120px 500px 120px">
+    <label></label>
+    <div></div>
 
-        </form>
+    <button type="submit" name="hapus" class="tombol-hapus btn-kecil">
+        HAPUS
+    </button>
+</div>
+
+</form>
 
 
         <table class="tabel-riwayat" border="1" cellpadding="5">
@@ -334,7 +274,7 @@ margin-top: 20px;
 
         <tbody>
         <?php
-          $data = mysqli_query($conn,"
+          $dataRiwayat = mysqli_query($conn,"
           SELECT rg.*, mg.kode_gol, mg.nama_pangkat
           FROM riwayat_golongan rg
           JOIN master_golongan mg ON rg.id_gol = mg.id_gol
@@ -342,7 +282,7 @@ margin-top: 20px;
           ORDER BY rg.tmt_golongan DESC
           ");
 
-          while($row = mysqli_fetch_assoc($data)){
+          while($row = mysqli_fetch_assoc($dataRiwayat)){
 
             echo "<tr onclick=\"pilihData('".$row['id_riwayat_gol']."','".$row['id_gol']."','".$row['tmt_golongan']."')\">
             <td>".$row['kode_gol']." - ".$row['nama_pangkat']."</td>
@@ -384,6 +324,10 @@ document.querySelector("input[name='tmt_golongan']").value = tmt_golongan;
 
 }
 </script>
+
+<script src="core-ui.js"></script>
+    <script src="datamaster.js"></script>
+    <script src="admin-ui.js"></script>
 
 </body>
 </html>
